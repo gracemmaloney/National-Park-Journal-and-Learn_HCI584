@@ -5,5 +5,4 @@ Project Repo Structure:
 - Project Spec.docx: initial project specification
 - Main.ipynb: jupyter notebook to be ran (I will be adding a .py file as well)
 - Database - Learn.xlsx: data for Learn tab of GUI
-- Database - Journal.xlsx: data for Journal tab of GUI
 - National Park Photos: folder containing a photo of each US national park (via NPS)
