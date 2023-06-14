@@ -6,3 +6,4 @@ Project Repo Structure:
 - Main.ipynb: jupyter notebook to be ran (I will be adding a .py file as well)
 - Database - Learn.xlsx: data for Learn tab of GUI
 - National Park Photos: folder containing a photo of each US national park (via NPS)
+- Journal Entries: folder containing existing journal entries
