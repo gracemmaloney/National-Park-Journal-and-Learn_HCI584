@@ -2,4 +2,5 @@ National Park Visited: Denali National Park
 Details: Denali Test
 
 Rating: 5
-Rating Details: Denali Test
+Rating Details: Denali Test - EDIT
+
