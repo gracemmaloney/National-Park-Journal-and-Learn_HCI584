@@ -164,6 +164,14 @@ class App(Frame):
 
     # Part 4a Open Journal Entry Function
     def open_journal_entry(self):
+        #self.open_text_file.delete("1.0", END)
+
+        # Select file to open
+        self.journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
+        self.journal_file = open(self.journal_file, 'r')
+        read_journal = self.journal_file.read()
+        
+        # New window for frame and text box
         self.open_journal_entry = Toplevel() # new window
         
         # frame for text file
@@ -173,7 +181,11 @@ class App(Frame):
         # Text box for text file to appear in when opened
         self.open_text_file = Text(self.open_journal_frame, width=90, height=20)
         self.open_text_file.pack(padx=10, pady=10)
-
+       
+        # Insert file contents
+        self.open_text_file.insert(END, read_journal)
+        self.journal_file.close()
+        
         # Menu for opening and saving files
         self.file_menu = Menu(self.open_journal_entry)
         self.open_journal_entry.config(menu=self.file_menu)
