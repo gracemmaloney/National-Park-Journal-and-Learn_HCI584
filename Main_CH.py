@@ -79,11 +79,12 @@ class App(Frame):
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
+    #CH EDIT
     def dostuff(self, event):
         '''dummy method to show how to get the clicked on entry in a pull down list'''
         print(event) # event data, can be ignored
         print(self.entries_list.get(ACTIVE))
-
+    #CH EDIT
 
     # Part 2 New Journal Entry Function
     def enter_new_journal_entry(self):
@@ -135,12 +136,16 @@ class App(Frame):
         self.rating_text=Text(self.textframe, width=90, height=10, wrap=WORD)
         self.rating_text.pack(padx=10, pady=10, anchor=W)
 
-        # Save button that needs a command = save_journal_entry - To DO
+        # Save button
         self.journalentry_button = Button(self.textframe, text="Save", command=self.save_journal_entry)
         self.journalentry_button.pack(padx=10, pady=10)
+
+        # Cancel button
+        self.cancel_button = Button(self.textframe, text="Cancel", command=self.cancel_journal_entry)
+        self.cancel_button.pack(padx=10, pady=10)
     
     
-    # Part 3 Save Journal Entry Function
+    # Part 3a Save Journal Entry Function
     def save_journal_entry(self):
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt"), ("HTML File", ".html")]) # , ("Word File", ".docx")
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
@@ -152,7 +157,11 @@ class App(Frame):
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
     
-    
+    # Part 3b Cancel Journal Entry Function
+    def cancel_journal_entry(self):
+        self.journal_entry.destroy()
+
+
     # Part 4a Open Journal Entry Function
     def open_journal_entry(self):
         self.open_journal_entry = Toplevel() # new window
