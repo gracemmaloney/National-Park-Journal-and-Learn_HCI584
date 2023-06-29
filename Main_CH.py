@@ -6,6 +6,8 @@ import tkinter.messagebox
 import pandas as pd
 from PIL import Image,ImageTk
 import os
+import datetime
+from tkcalendar import *
 
 # CH I needed to change the path to the journal folder so I can run your app
 # This should just work as relative path (relative to the project root folder)
@@ -117,7 +119,6 @@ class App(Frame):
         # Text box for journal details
         self.text=Text(self.textframe, width=90, height=20, wrap=WORD)
         self.text.pack(padx=10, pady=10, anchor=W)
-        #self.text.grid(row=1, column=0, columnspan=3, sticky=(N, S, E, W)) # doesn't work
 
         # Step-by-step instruction
         self.rating_label = Label(self.textframe, text="3. Rate the selected National Park:")
@@ -125,13 +126,13 @@ class App(Frame):
 
         # Drop down menu for rating
         self.rating_var = StringVar()
-        self.rating_dropdown = OptionMenu(self.textframe, self.rating_var, "0", "1", "2", "3", "4", "5") # these 3 parks are just placeholders for testing
+        self.rating_dropdown = OptionMenu(self.textframe, self.rating_var, "0", "1", "2", "3", "4", "5")
         self.rating_dropdown.pack(padx=10, pady=10, anchor=W)
-        
+
         # Step-by-step instruction
         self.ratingtext_label = Label(self.textframe, text="4. Optionally, justify your rating:")
         self.ratingtext_label.pack(padx=10, anchor=W)
-        
+
         # Text box for rating details
         self.rating_text=Text(self.textframe, width=90, height=10, wrap=WORD)
         self.rating_text.pack(padx=10, pady=10, anchor=W)
@@ -144,9 +145,10 @@ class App(Frame):
         self.cancel_button = Button(self.textframe, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    
+
     # Part 3a Save Journal Entry Function
     def save_journal_entry(self):
+        #current_date = datetime.datetime.now()
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
@@ -263,9 +265,9 @@ class App(Frame):
         self.desc_label.configure(wraplength=600, justify=LEFT)
         
 # TO DO LIST
-# need to adjust explicit file paths to work for other users
-# see if there is a way to combine parts 4a and 4b
-# figure out why my kernel keeps crashing
+# continue to make edit based on CH feedback
+# work on proposed feature enhancements
+
 
 master = Tk()  # create a Tk window called master
 master.title("National Park Journal for Outdoor Enthusiasts TkInter GUI - WIP")
