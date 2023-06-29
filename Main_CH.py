@@ -147,7 +147,7 @@ class App(Frame):
     
     # Part 3a Save Journal Entry Function
     def save_journal_entry(self):
-        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt"), ("HTML File", ".html")]) # , ("Word File", ".docx")
+        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
         self.text_file.close()
@@ -205,7 +205,8 @@ class App(Frame):
 
     # Part 4c Save File Function
     def save_file(self):
-        self.journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, title="Save Journal Entry Text File")
+        self.existing_filename = os.path.basename(self.journal_file.name)
+        self.journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
         self.journal_file = open(self.journal_file, 'w')
         self.journal_file.write(self.open_text_file.get("1.0", END))
         self.journal_file.close()
