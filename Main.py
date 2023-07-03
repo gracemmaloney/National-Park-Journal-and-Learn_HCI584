@@ -212,13 +212,38 @@ class App(Frame):
         self.click_text_file = Text(self.click_journal_frame, width=90, height=20)
         self.click_text_file.pack(padx=10, pady=10)
 
-        self.journal_file = self.entries_list.get(ACTIVE)
+        self.click_journal_file = self.entries_list.get(ACTIVE)
         folder_path = JOURNAL_DIR
-        file_path = os.path.join(folder_path, self.journal_file)
+        file_path = os.path.join(folder_path, self.click_journal_file)
         file_clicked = open(file_path, 'r')
         read_journal_clicked = file_clicked.read()
         self.click_text_file.insert(END, read_journal_clicked)
         file_clicked.close()
+
+        # Menu for opening and saving files
+        self.option_menu = Menu(self.click_journal_entry)
+        self.click_journal_entry.config(menu=self.option_menu)
+        self.entry_menu = Menu(self.option_menu)
+        self.option_menu.add_cascade(label="File", menu=self.entry_menu)
+        self.entry_menu.add_command(label="Open", command=self.open_clicked_file)
+        self.entry_menu.add_command(label="Save", command=self.save_clicked_file)
+
+    # Part 4e Open File Function for Double Click Method
+    def open_clicked_file(self):
+        self.click_text_file.delete("1.0", END)
+        self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
+        self.click_journal_file = open(self.click_journal_file, 'r')
+        read_journal = self.click_journal_file.read()
+        self.click_text_file.insert(END, read_journal)
+        self.click_journal_file.close()
+
+    # Part 4f Save File Function for Double Click Method
+    def save_clicked_file(self):
+        self.click_existing_filename = os.path.basename(self.click_journal_file)
+        self.click_journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
+        self.click_journal_file = open(self.click_journal_file, 'w')
+        self.click_journal_file.write(self.click_text_file.get("1.0", END))
+        self.click_journal_file.close()
         
     
     # Part 5 New Learn Inquiry Function
