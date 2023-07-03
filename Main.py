@@ -43,11 +43,9 @@ class App(Frame):
         self.ext_entries_label.pack(padx=10, pady=5, anchor=W)
 
         # Listbox listing existing entries
-        # CH: I made this single select mode so it's clear which entry has been selected when 2 x clicking
+        # CH made this single select mode so it's clear which entry has been selected when 2 x clicking
         self.entries_list = Listbox(self.frame1, width=50, selectmode=SINGLE)
-        self.entries_list.bind("<Double-Button-1>", self.dostuff)  
-        # in dostuff() you can get the 2 x clicked on entry with self.entries_list.get(ACTIVE)
-        # as dostuff is a callback it will have 2 args, self and event, which holds event related data
+        self.entries_list.bind("<Double-Button-1>", self.double_click_journal)  
         
         self.entries_list.pack(padx=10, pady=10, anchor=W)
         self.journal_entry_list = os.listdir(JOURNAL_DIR)
@@ -77,12 +75,6 @@ class App(Frame):
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
-    #CH EDIT
-    def dostuff(self, event):
-        '''dummy method to show how to get the clicked on entry in a pull down list'''
-        print(event) # event data, can be ignored
-        print(self.entries_list.get(ACTIVE))
-    #CH EDIT
 
     # Part 2 New Journal Entry Function
     def enter_new_journal_entry(self):
@@ -204,7 +196,30 @@ class App(Frame):
         self.journal_file = open(self.journal_file, 'w')
         self.journal_file.write(self.open_text_file.get("1.0", END))
         self.journal_file.close()
-            
+
+    # Part 4d Double Click Opening Journal Entry
+    def double_click_journal(self, event):
+        '''method to show how to get the clicked on entry in a listbox'''
+
+        # New window for frame and text box
+        self.click_journal_entry = Toplevel() # new window
+        
+        # frame for text file
+        self.click_journal_frame=Frame(self.click_journal_entry)
+        self.click_journal_frame.pack(padx=10, pady=10)   
+        
+        # Text box for text file to appear in when opened
+        self.click_text_file = Text(self.click_journal_frame, width=90, height=20)
+        self.click_text_file.pack(padx=10, pady=10)
+
+        self.journal_file = self.entries_list.get(ACTIVE)
+        folder_path = JOURNAL_DIR
+        file_path = os.path.join(folder_path, self.journal_file)
+        file_clicked = open(file_path, 'r')
+        read_journal_clicked = file_clicked.read()
+        self.click_text_file.insert(END, read_journal_clicked)
+        file_clicked.close()
+        
     
     # Part 5 New Learn Inquiry Function
     def new_learn_inquiry(self):
