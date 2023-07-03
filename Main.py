@@ -9,10 +9,6 @@ import os
 import datetime
 from tkcalendar import *
 
-# CH I needed to change the path to the journal folder so I can run your app
-# This should just work as relative path (relative to the project root folder)
-# put if that doesn't work for you for any reason, you can just change it to your
-# absolute path settings
 JOURNAL_DIR = "./Journal Entries"
 
 
@@ -62,15 +58,15 @@ class App(Frame):
         self.open_journal_button = Button(self.frame1, text="Open a journal entry",  command=self.open_journal_entry) 
         self.open_journal_button.pack(padx=10, pady=5, anchor=W)
 
-        # Drop down menu on Learn tab
+        # Drop down menu on Learn tab + read in excel file
         self.learn_dropdown_label = Label(self.frame2, text="Select a US National Park:")
         self.learn_dropdown_label.pack(padx=10, anchor=W)
 
-        learn_data = pd.read_excel("Database - Learn.xlsx")
-        park_names = learn_data["Name"]
-        parks_edu_list = list(park_names)
+        app_data = pd.read_excel("Database - Learn.xlsx")
+        park_names = app_data["Name"]
+        self.parks_list = list(park_names)
         self.natpark_learn_var = StringVar()
-        self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *parks_edu_list)
+        self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *self.parks_list)
         self.learn_dropdown.pack(padx=10, pady=10, anchor=W)
 
         # Learn about this park button
@@ -103,13 +99,9 @@ class App(Frame):
         self.dropdown_label = Label(self.textframe, text="1. Select a US National Park:")
         self.dropdown_label.pack(padx=10, anchor=W)
         
-        # Read in excel file
         # Drop down menu on Journal window
-        journal_data = pd.read_excel("Database - Learn.xlsx")
-        park_names = journal_data["Name"]
-        park_list = list(park_names)
         self.natpark_var = StringVar()
-        self.natpark_dropdown = OptionMenu(self.textframe, self.natpark_var, *park_list)
+        self.natpark_dropdown = OptionMenu(self.textframe, self.natpark_var, *self.parks_list)
         self.natpark_dropdown.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
