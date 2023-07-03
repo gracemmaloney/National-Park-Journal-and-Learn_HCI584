@@ -297,8 +297,8 @@ class App(Frame):
         self.desc_label.configure(wraplength=600, justify=LEFT)
         
 # TO DO LIST
-# continue to make edit based on CH feedback
 # work on proposed feature enhancements
+# add doc strings for each function
 
 
 master = Tk()  # create a Tk window called master
