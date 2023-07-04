@@ -314,8 +314,8 @@ class App(Frame):
         self.desc_label.configure(wraplength=600, justify=LEFT)
         
 # TO DO LIST
-# work on proposed feature enhancements
-# Ask CH for help with Part 3a
+# work on proposed learn tab enhancements (Thursday)
+# ask CH for help with Part 3a (Friday)
 # add doc strings for each function
 
 
