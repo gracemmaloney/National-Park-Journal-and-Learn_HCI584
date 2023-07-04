@@ -105,7 +105,15 @@ class App(Frame):
         self.text.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
-        self.rating_label = Label(self.textframe, text="3. Rate the selected National Park:")
+        self.image_upload_label = Label(self.textframe, text="3. Upload a picture from your visit:")
+        self.image_upload_label.pack(padx=10, anchor=W)
+        
+        # Upload Image button
+        self.image_button = Button(self.textframe, text="Upload image", command = self.upload_image)
+        self.image_button.pack(padx=10, pady=10, anchor=W)
+
+        # Step-by-step instruction
+        self.rating_label = Label(self.textframe, text="4. Rate the selected National Park:")
         self.rating_label.pack(padx=10, anchor=W)
 
         # Drop down menu for rating
@@ -114,7 +122,7 @@ class App(Frame):
         self.rating_dropdown.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
-        self.ratingtext_label = Label(self.textframe, text="4. Optionally, justify your rating:")
+        self.ratingtext_label = Label(self.textframe, text="5. Optionally, justify your rating:")
         self.ratingtext_label.pack(padx=10, anchor=W)
 
         # Text box for rating details
@@ -129,8 +137,17 @@ class App(Frame):
         self.cancel_button = Button(self.textframe, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-
-    # Part 3a Save Journal Entry Function
+    # Part 3a Upload an Image - WIP
+    def upload_image(self):
+        self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")]) # - potential issue
+        image_open = Image.open(self.upload_img_file)
+        image_resize = image_open.resize((300, 225), Image.LANCZOS)
+        selected_pic = ImageTk.PhotoImage(image_resize)
+        self.pic_label = Label(self.textframe, image=selected_pic)
+        self.pic_label.image=selected_pic # for garbage collection - potential issue
+        self.pic_label.pack(padx=10, pady=0, anchor=W)
+    
+    # Part 3b Save Journal Entry Function
     def save_journal_entry(self):
         #current_date = datetime.datetime.now()
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
@@ -143,7 +160,7 @@ class App(Frame):
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
     
-    # Part 3b Cancel Journal Entry Function
+    # Part 3c Cancel Journal Entry Function
     def cancel_journal_entry(self):
         self.journal_entry.destroy()
 
@@ -298,6 +315,7 @@ class App(Frame):
         
 # TO DO LIST
 # work on proposed feature enhancements
+# Ask CH for help with Part 3a
 # add doc strings for each function
 
 
