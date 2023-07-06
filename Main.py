@@ -298,7 +298,7 @@ class App(Frame):
         self.desc_label.pack(padx=10, pady=5, anchor=W)
         self.desc_label.configure(wraplength=600, justify=LEFT)
 
-        # Link
+        # NPS Page Link
         self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline')) # Link: "+park_info_list[0][3])
         self.link_label.pack(padx=10, pady=10, anchor=W)
         self.link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][3]))
