@@ -8,6 +8,7 @@ from PIL import Image,ImageTk
 import os
 import datetime
 from tkcalendar import *
+import webbrowser
 
 JOURNAL_DIR = "./Journal Entries"
 
@@ -290,11 +291,17 @@ class App(Frame):
         park_pic = ImageTk.PhotoImage(img_resize)
         self.image_label = Label(self.learn_info_frame, image=park_pic)
         self.image_label.image = park_pic
-        self.image_label.pack(padx=10, pady=0, anchor=W)
+        self.image_label.pack(padx=10, pady=5, anchor=W)
+
+        # Description
+        self.desc_label = Label(self.learn_info_frame, text="Description: "+park_info_list[0][7])
+        self.desc_label.pack(padx=10, pady=5, anchor=W)
+        self.desc_label.configure(wraplength=600, justify=LEFT)
 
         # Link
-        self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page Link: "+park_info_list[0][3])
+        self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline')) # Link: "+park_info_list[0][3])
         self.link_label.pack(padx=10, pady=10, anchor=W)
+        self.link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][3]))
         
         # Cost per vehicle
         self.costv_label = Label(self.learn_info_frame, text="Cost of Entry Per Vehicle: $"+str(park_info_list[0][4]))
@@ -308,10 +315,7 @@ class App(Frame):
         self.costm_label = Label(self.learn_info_frame, text="Cost of Entry Per Motorcycle: $"+str(park_info_list[0][6]))
         self.costm_label.pack(padx=10, anchor=W)
         
-        # Description
-        self.desc_label = Label(self.learn_info_frame, text="Description: "+park_info_list[0][7])
-        self.desc_label.pack(padx=10, pady=10, anchor=W)
-        self.desc_label.configure(wraplength=600, justify=LEFT)
+       
         
 # TO DO LIST
 # work on proposed learn tab enhancements (Thursday)
