@@ -18,7 +18,7 @@ class App(Frame):
         self.master = master # store link to master window, use as frame to put all other widgets into
         
         # Part 1) Tabular Journal (default) vs. Learn Windows Set Up
-        self.notebook = ttk.Notebook(self.master, width=700, height=700)
+        self.notebook = ttk.Notebook(self.master, width=850, height=800)
 
         self.frame1 = Frame(self.notebook)
         self.frame2 = Frame(self.notebook)
@@ -283,7 +283,7 @@ class App(Frame):
         # Location
         self.location_label = Label(self.learn_info_frame, text=("Location: "+park_info_list[0][1]))
         self.location_label.pack(padx=10, pady=5, anchor=W)
-        self.location_label.configure(wraplength=700, justify=LEFT)
+        self.location_label.configure(wraplength=800, justify=LEFT)
 
         # Image
         img_open = Image.open(park_info_list[0][2])
@@ -296,12 +296,27 @@ class App(Frame):
         # Description
         self.desc_label = Label(self.learn_info_frame, text="Description: "+park_info_list[0][7])
         self.desc_label.pack(padx=10, pady=5, anchor=W)
-        self.desc_label.configure(wraplength=600, justify=LEFT)
+        self.desc_label.configure(wraplength=800, justify=LEFT)
 
         # NPS Page Link
         self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline')) # Link: "+park_info_list[0][3])
         self.link_label.pack(padx=10, pady=10, anchor=W)
         self.link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][3]))
+
+        # Nature and Wildlife
+        self.wildlife_label = Label(self.learn_info_frame, text="Common wildlife to be seen in the park includes: "+park_info_list[0][10]+ ". For more information about nature and wildlife, please visit: "+park_info_list[0][11])
+        self.wildlife_label.pack(padx=10, pady=5, anchor=W)
+        self.wildlife_label.configure(wraplength=800, justify=LEFT)
+
+        # Activities
+        self.activities_label = Label(self.learn_info_frame, text="Common activities throughout the park include: "+park_info_list[0][12]+ ". For more information about nature and wildlife, please visit: "+park_info_list[0][13])
+        self.activities_label.pack(padx=10, pady=5, anchor=W)
+        self.activities_label.configure(wraplength=800, justify=LEFT)
+
+        # Operating Hours and Seasons
+        self.ops_label = Label(self.learn_info_frame, text="Operating hours: "+park_info_list[0][8]+ ". For more information about hours and seasons, please visit: "+park_info_list[0][9])
+        self.ops_label.pack(padx=10, pady=5, anchor=W)
+        self.ops_label.configure(wraplength=800, justify=LEFT)
         
         # Cost per vehicle
         self.costv_label = Label(self.learn_info_frame, text="Cost of Entry Per Vehicle: $"+str(park_info_list[0][4]))
@@ -318,7 +333,7 @@ class App(Frame):
        
         
 # TO DO LIST
-# work on proposed learn tab enhancements (Thursday)
+# work on learn tab database and links
 # ask CH for help with Part 3a (Friday)
 # add doc strings for each function
 
