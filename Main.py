@@ -6,8 +6,6 @@ import tkinter.messagebox
 import pandas as pd
 from PIL import Image,ImageTk
 import os
-import datetime
-from tkcalendar import *
 import webbrowser
 
 JOURNAL_DIR = "./Journal Entries"
@@ -388,8 +386,8 @@ class App(Frame):
        
         
 # TO DO LIST
-# add scrollbars where needed
 # tweak Part 3a to maintain aspect ratio of uploaded images and add to 3b
+# add scrollbars where needed
 # Tweak Part 4h Save File Function for Double Click Method?
 
 
