@@ -44,7 +44,6 @@ class App(Frame):
         self.ext_entries_label.pack(padx=10, pady=5, anchor=W)
 
         # Listbox listing existing entries
-        # CH made this single select mode so it's clear which entry has been selected when 2 x clicking
         self.entries_list = Listbox(self.frame1, width=50, selectmode=SINGLE)
         self.entries_list.bind("<Double-Button-1>", self.double_click_journal)  
         
@@ -102,7 +101,7 @@ class App(Frame):
         self.text_label.pack(padx=10, anchor=W)
 
         # Text box for journal details
-        self.text=Text(self.textframe, width=90, height=20, wrap=WORD)
+        self.text=Text(self.textframe, width=90, height=10, wrap=WORD)
         self.text.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
@@ -112,6 +111,9 @@ class App(Frame):
         # Upload Image button
         self.image_button = Button(self.textframe, text="Upload image", command = self.upload_image)
         self.image_button.pack(padx=10, pady=10, anchor=W)
+
+        self.pic_label = Label(self.textframe)
+        self.pic_label.pack(padx=10, pady=0, anchor=W)
 
         # Step-by-step instruction
         self.rating_label = Label(self.textframe, text="4. Rate the selected National Park:")
@@ -142,11 +144,11 @@ class App(Frame):
     def upload_image(self):
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")]) # - potential issue
         image_open = Image.open(self.upload_img_file)
-        image_resize = image_open.resize((300, 225), Image.LANCZOS)
+        image_resize = image_open.resize((300, 225), Image.Resampling.LANCZOS)
         selected_pic = ImageTk.PhotoImage(image_resize)
-        self.pic_label = Label(self.textframe, image=selected_pic)
+        self.pic_label.configure(image=selected_pic)
         self.pic_label.image=selected_pic # for garbage collection - potential issue
-        self.pic_label.pack(padx=10, pady=0, anchor=W)
+        # CH - use thumbnail instead of resize to preserve the original aspect ratio
     
     # Part 3b Save Journal Entry Function
     def save_journal_entry(self):
@@ -250,7 +252,7 @@ class App(Frame):
     def open_clicked_file(self):
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
-        self.click_journal_file = open(self.click_journal_file, 'r')
+        self.click_journal_file = open(self.click_journal_file, 'r') # CH r is default mode
         read_journal = self.click_journal_file.read()
         self.click_text_file.insert(END, read_journal)
         self.click_journal_file.close()
@@ -262,6 +264,13 @@ class App(Frame):
         self.click_journal_file = open(self.click_journal_file, 'w')
         self.click_journal_file.write(self.click_text_file.get("1.0", END))
         self.click_journal_file.close()
+
+        #CH self.click_journal_file = open(self.click_journal_file, 'w') # maybe use w+ to overwrite
+        #self.click_journal_file.write(self.click_text_file.get("1.0", END))
+        #self.click_journal_file.close()
+
+        #with open(self.click_journal_file, 'w+') as self.click_journal_file:
+            #self.click_journal_file.write(self.click_text_file.get("1.0", END))
         
     
     # Part 5 New Learn Inquiry Function
