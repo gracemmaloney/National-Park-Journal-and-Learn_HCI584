@@ -333,9 +333,13 @@ class App(Frame):
        
         
 # TO DO LIST
-# work on learn tab database and links
-# ask CH for help with Part 3a (Friday)
+# work on learn tab links and formatting
+# tweak Part 3a
 # add doc strings for each function
+# clean up formatting of main window to remove unnecessary whitespace
+# Set up a default park to be initially shown on the Learn tab
+# When opening and editing existing journal entries, add save and cancel buttons that are visible on the window that populates with the selected existing journal entry
+
 
 
 master = Tk()  # create a Tk window called master
