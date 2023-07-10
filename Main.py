@@ -194,6 +194,15 @@ class App(Frame):
         self.entry_menu.add_command(label="Open", command=self.open_file)
         self.entry_menu.add_command(label="Save", command=self.save_file)
 
+        # Save button
+        self.journal_save_entry_button = Button(self.open_journal_frame, text="Save", command=self.save_file)
+        self.journal_save_entry_button.pack(padx=10, pady=5)
+
+        # Cancel button
+        self.cancel_journal_button = Button(self.open_journal_frame, text="Cancel", command=self.cancel_journal_changes)
+        self.cancel_journal_button.pack(padx=10, pady=5)
+
+
     # Part 4b Open File Function
     def open_file(self):
         self.open_text_file.delete("1.0", END)
@@ -242,7 +251,24 @@ class App(Frame):
         self.entry_menu.add_command(label="Open", command=self.open_clicked_file)
         self.entry_menu.add_command(label="Save", command=self.save_clicked_file)
 
-    # Part 4e Open File Function for Double Click Method
+        # Save button
+        self.journal_save_entry_button = Button(self.click_journal_frame, text="Save", command=self.save_clicked_file)
+        self.journal_save_entry_button.pack(padx=10, pady=5)
+
+        # Cancel button
+        self.cancel_journal_button = Button(self.click_journal_frame, text="Cancel", command=self.cancel_journal_edits)
+        self.cancel_journal_button.pack(padx=10, pady=5)
+
+    # Part 4e Cancel Journal Edits Function
+    def cancel_journal_edits(self):
+        self.click_journal_entry.destroy()
+
+    # Part 4f Cancel Journal Edits Function
+    def cancel_journal_changes(self):
+        self.open_journal_entry.destroy()
+
+
+    # Part 4g Open File Function for Double Click Method
     def open_clicked_file(self):
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
@@ -251,7 +277,7 @@ class App(Frame):
         self.click_text_file.insert(END, read_journal)
         self.click_journal_file.close()
 
-    # Part 4f Save File Function for Double Click Method
+    # Part 4h Save File Function for Double Click Method
     def save_clicked_file(self):
         self.click_existing_filename = os.path.basename(self.click_journal_file)
         self.click_journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
@@ -353,10 +379,8 @@ class App(Frame):
 # TO DO LIST
 # tweak Part 3a to maintain aspect ratio of uploaded images
 # add doc strings for each function
-# Set up a default park to be initially shown on the Learn tab
-# When opening and editing existing journal entries, add save and cancel buttons that are visible on the window that populates with the selected existing journal entry
 
-# Tweak Part 4f Save File Function for Double Click Method?
+# Tweak Part 4h Save File Function for Double Click Method?
 # add scrollbars where needed
 # add styling
 
