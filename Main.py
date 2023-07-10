@@ -33,11 +33,11 @@ class App(Frame):
         self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button.")
         self.frame2_label = Label(self.frame2, text="To learn about a national park, select the appropriate national park from the dropdown menu.")
         self.frame1_label.pack(padx=10, pady=10, anchor=W)
-        self.frame2_label.pack(padx=10, pady=10, anchor=W)
+        self.frame2_label.pack(padx=15, pady=10, anchor=W)
 
         # Create new journal button
         self.journal_button = Button(self.frame1, text="Create new journal entry", command=self.enter_new_journal_entry)
-        self.journal_button.pack(padx=10, pady=10, anchor=W)
+        self.journal_button.pack(padx=10, pady=5, anchor=W)
 
         # Existing entries label
         self.ext_entries_label = Label(self.frame1, text="Existing entries:")
@@ -57,19 +57,13 @@ class App(Frame):
         self.open_journal_button.pack(padx=10, pady=5, anchor=W)
 
         # Drop down menu on Learn tab + read in excel file
-        self.learn_dropdown_label = Label(self.frame2, text="Select a US National Park:")
-        self.learn_dropdown_label.pack(padx=10, anchor=W)
-
         app_data = pd.read_excel("Database - Learn.xlsx")
         park_names = app_data["Name"]
         self.parks_list = list(park_names)
         self.natpark_learn_var = StringVar()
-        self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *self.parks_list)
-        self.learn_dropdown.pack(padx=10, pady=10, anchor=W)
-
-        # Learn about this park button
-        self.learn_button = Button(self.frame2, text="Learn about this park", command=self.new_learn_inquiry)
-        self.learn_button.pack(padx=10, pady=5, anchor=W)
+        self.natpark_learn_var.set("Select a National Park")
+        self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *self.parks_list, command=self.new_learn_inquiry)
+        self.learn_dropdown.pack(padx=15, pady=10, anchor=W)
 
         # Frame that will be cleared below each time a user selects a park to learn about
         self.learn_info_frame=Frame(self.frame2) 
@@ -274,7 +268,7 @@ class App(Frame):
         
     
     # Part 5 New Learn Inquiry Function
-    def new_learn_inquiry(self):
+    def new_learn_inquiry(self, event):
         # Destroy frame created above to clear contents of the frame
         self.learn_info_frame.destroy() 
         
@@ -288,11 +282,6 @@ class App(Frame):
 
         park_info = learn_excel[learn_excel['Name'] == park_from_list]
         park_info_list = park_info.values.tolist() 
-        
-        # Location
-        self.location_label = Label(self.learn_info_frame, text=("Location: "+park_info_list[0][1]))
-        self.location_label.pack(padx=10, pady=5, anchor=W)
-        self.location_label.configure(wraplength=800, justify=LEFT)
 
         # Image
         img_open = Image.open(park_info_list[0][2])
@@ -302,34 +291,54 @@ class App(Frame):
         self.image_label.image = park_pic
         self.image_label.pack(padx=10, pady=5, anchor=W)
 
+        # Location
+        self.location_label = Label(self.learn_info_frame, text=("Location: "+park_info_list[0][1]))
+        self.location_label.pack(padx=10, pady=5, anchor=W)
+        self.location_label.configure(wraplength=800, justify=LEFT)
+
         # Description
         self.desc_label = Label(self.learn_info_frame, text="Description: "+park_info_list[0][7])
         self.desc_label.pack(padx=10, pady=5, anchor=W)
         self.desc_label.configure(wraplength=800, justify=LEFT)
 
         # NPS Page Link
-        self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline')) # Link: "+park_info_list[0][3])
-        self.link_label.pack(padx=10, pady=10, anchor=W)
+        self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
+        self.link_label.pack(padx=10, pady=(0,5), anchor=W)
         self.link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][3]))
 
         # Nature and Wildlife
-        self.wildlife_label = Label(self.learn_info_frame, text="Common wildlife to be seen in the park includes: "+park_info_list[0][10]+ ". For more information about nature and wildlife, please visit: "+park_info_list[0][11])
-        self.wildlife_label.pack(padx=10, pady=5, anchor=W)
+        self.wildlife_label = Label(self.learn_info_frame, text="Common wildlife to be seen in the park includes: "+park_info_list[0][10]+ ", and more! For more information about nature and wildlife, please visit:")
+        self.wildlife_label.pack(padx=10, pady=0, anchor=W)
         self.wildlife_label.configure(wraplength=800, justify=LEFT)
 
+        # Nature and Wildlife URL
+        self.nw_link_label = Label(self.learn_info_frame, text=str(park_info_list[0][11]) , fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
+        self.nw_link_label.pack(padx=10, pady=(0,10),anchor=W)
+        self.nw_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][11]))
+
         # Activities
-        self.activities_label = Label(self.learn_info_frame, text="Common activities throughout the park include: "+park_info_list[0][12]+ ". For more information about nature and wildlife, please visit: "+park_info_list[0][13])
-        self.activities_label.pack(padx=10, pady=5, anchor=W)
+        self.activities_label = Label(self.learn_info_frame, text="Common activities throughout the park include: "+park_info_list[0][12]+ ", and more! For more information about nature and wildlife, please visit:")
+        self.activities_label.pack(padx=10, pady=0, anchor=W)
         self.activities_label.configure(wraplength=800, justify=LEFT)
 
+        # Activities URL
+        self.act_link_label = Label(self.learn_info_frame, text=str(park_info_list[0][13]) , fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
+        self.act_link_label.pack(padx=10, pady=(0,10), anchor=W)
+        self.act_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][13]))
+
         # Operating Hours and Seasons
-        self.ops_label = Label(self.learn_info_frame, text="Operating hours: "+park_info_list[0][8]+ ". For more information about hours and seasons, please visit: "+park_info_list[0][9])
-        self.ops_label.pack(padx=10, pady=5, anchor=W)
+        self.ops_label = Label(self.learn_info_frame, text="Operating hours: "+park_info_list[0][8]+ ". For more information about hours and holiday closures, please visit:")
+        self.ops_label.pack(padx=10, pady=0, anchor=W)
         self.ops_label.configure(wraplength=800, justify=LEFT)
+
+        # Operating Hours and Seasons URL
+        self.ops_link_label = Label(self.learn_info_frame, text=str(park_info_list[0][9]) , fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
+        self.ops_link_label.pack(padx=10, pady=(0,10), anchor=W)
+        self.ops_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][9]))
         
         # Cost per vehicle
         self.costv_label = Label(self.learn_info_frame, text="Cost of Entry Per Vehicle: $"+str(park_info_list[0][4]))
-        self.costv_label.pack(padx=10, anchor=W)
+        self.costv_label.pack(padx=10, pady=(5,0), anchor=W)
         
         # Cost per person
         self.costp_label = Label(self.learn_info_frame, text="Cost of Entry Per Person: $"+str(park_info_list[0][5]))
@@ -342,13 +351,14 @@ class App(Frame):
        
         
 # TO DO LIST
-# work on learn tab links and formatting
-# tweak Part 3a
+# tweak Part 3a to maintain aspect ratio of uploaded images
 # add doc strings for each function
-# clean up formatting of main window to remove unnecessary whitespace
 # Set up a default park to be initially shown on the Learn tab
 # When opening and editing existing journal entries, add save and cancel buttons that are visible on the window that populates with the selected existing journal entry
 
+# Tweak Part 4f Save File Function for Double Click Method?
+# add scrollbars where needed
+# add styling
 
 
 master = Tk()  # create a Tk window called master
