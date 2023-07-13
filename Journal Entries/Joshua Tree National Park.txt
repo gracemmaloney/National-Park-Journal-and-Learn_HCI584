@@ -1,10 +1,1 @@
-National Park Visited: Joshua Tree National Park
-Details: Not enough hiking trails.
-
-Rating: 1
-Rating Details: This park has great scenery, but hiking is limited.
-
-EDIT TEST 6/29/23
-EDIT 7/10/23
-
-
+test

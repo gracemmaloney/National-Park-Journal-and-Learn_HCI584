@@ -281,7 +281,7 @@ class App(Frame):
         '''method for opening an existing journal entry - via double clicked mode'''
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
-        self.click_journal_file = open(self.click_journal_file, 'w+')
+        self.click_journal_file = open(self.click_journal_file, 'r')
         read_journal = self.click_journal_file.read()
         self.click_text_file.insert(END, read_journal)
         self.click_journal_file.close()
