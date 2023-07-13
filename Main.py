@@ -106,6 +106,7 @@ class App(Frame):
         self.image_button = Button(self.textframe, text="Upload image", command = self.upload_image)
         self.image_button.pack(padx=10, pady=10, anchor=W)
 
+        # Label for an uploaded image
         self.pic_label = Label(self.textframe)
         self.pic_label.pack(padx=10, pady=0, anchor=W)
 
@@ -138,9 +139,10 @@ class App(Frame):
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
-        image_open = Image.open(self.upload_img_file)
-        image_resize = image_open.resize((300, 200), Image.Resampling.LANCZOS)
-        self.selected_pic = ImageTk.PhotoImage(image_resize)
+        self.image_open = Image.open(self.upload_img_file)
+        #image_resize = image_open.resize((300, 200), Image.Resampling.LANCZOS)
+        self.image_resize = self.image_open.thumbnail((300, 225))
+        self.selected_pic = ImageTk.PhotoImage(self.image_resize)
         self.pic_label.configure(image=self.selected_pic)
         self.selected_pic.image=self.selected_pic # for garbage collection
     
@@ -279,7 +281,7 @@ class App(Frame):
         '''method for opening an existing journal entry - via double clicked mode'''
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
-        self.click_journal_file = open(self.click_journal_file, 'r') # CH r is default mode
+        self.click_journal_file = open(self.click_journal_file, 'w+')
         read_journal = self.click_journal_file.read()
         self.click_text_file.insert(END, read_journal)
         self.click_journal_file.close()
@@ -289,17 +291,13 @@ class App(Frame):
         '''method for saving an existing journal entry - via double clicked mode'''
         self.click_existing_filename = os.path.basename(self.click_journal_file)
         self.click_journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
-        self.click_journal_file = open(self.click_journal_file, 'w')
-        self.click_journal_file.write(self.click_text_file.get("1.0", END))
-        self.click_journal_file.close()
-
-        #CH self.click_journal_file = open(self.click_journal_file, 'w') # maybe use w+ to overwrite
+        #self.click_journal_file = open(self.click_journal_file, 'w+')
         #self.click_journal_file.write(self.click_text_file.get("1.0", END))
-        #self.click_journal_file.close()
-
-        #with open(self.click_journal_file, 'w+') as self.click_journal_file:
-            #self.click_journal_file.write(self.click_text_file.get("1.0", END))
         
+        with open(self.click_journal_file, 'w+') as self.click_journal_file:
+            self.click_journal_file.write(self.click_text_file.get("1.0", END))
+
+        self.click_journal_file.close()
     
     # Part 5 New Learn Inquiry Function
     def new_learn_inquiry(self, event):
@@ -386,9 +384,9 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 3a to maintain aspect ratio of uploaded images and add to 3b
+# tweak Part 3a to maintain aspect ratio of uploaded images and add to 3b - need help
 # add scrollbars where needed
-# Tweak Part 4h Save File Function for Double Click Method?
+
 
 
 master = Tk()  # create a Tk window called master
