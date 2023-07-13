@@ -386,6 +386,7 @@ class App(Frame):
 # TO DO LIST
 # tweak Part 3a to maintain aspect ratio of uploaded images and add to 3b - need help
 # add scrollbars where needed
+# style GUI (if time allows)
 
 
 
