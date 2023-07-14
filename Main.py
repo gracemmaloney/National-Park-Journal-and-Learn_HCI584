@@ -7,7 +7,6 @@ import pandas as pd
 from PIL import Image,ImageTk
 import os
 import webbrowser
-from IPython.display import display
 
 JOURNAL_DIR = "./Journal Entries"
 
@@ -161,7 +160,7 @@ class App(Frame):
         self.cancel_button = Button(self.second_frame, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    # Part 2b Upload an Image - WIP
+    # Part 2b Upload an Image
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
@@ -171,7 +170,7 @@ class App(Frame):
         self.pic_label.configure(image=self.selected_pic)
         self.selected_pic.image=self.selected_pic # for garbage collection
     
-    # Part 2c Save Journal Entry Function
+    # Part 2c Save Journal Entry Function  - WIP
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a text file'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
@@ -410,7 +409,8 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 3a to maintain aspect ratio of uploaded images and add to 3b - need help
+# tweak Part 3c to incorporate uploaded images - WIP
+# enable users to upload images to existing entries once they have been opened for editing?
 # add scrollbars where needed
 # style GUI (if time allows)
 
