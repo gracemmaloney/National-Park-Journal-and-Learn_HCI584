@@ -174,8 +174,8 @@ class App(Frame):
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a text file'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
-        image_data = self.pic_label.cget('image') # wip
-        image_str = str(image_data + "\n") # wip
+        get_image = self.pic_label.cget('image') # wip
+        image_str = str(get_image + "\n") # wip
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
         self.text_file.close()
@@ -232,7 +232,6 @@ class App(Frame):
         self.cancel_journal_button = Button(self.open_journal_frame, text="Cancel", command=self.cancel_journal_changes)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-
     # Part 3b Open File Function
     def open_file(self):
         '''method for opening a different file for viewing/editing from file menu'''
@@ -248,7 +247,7 @@ class App(Frame):
         '''method for saving a file after viewing/editing from file menu'''
         self.existing_filename = os.path.basename(self.journal_file.name)
         self.journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
-        self.journal_file = open(self.journal_file, 'w')
+        self.journal_file = open(self.journal_file, 'w+') 
         self.journal_file.write(self.open_text_file.get("1.0", END))
         self.journal_file.close()
 
@@ -323,7 +322,8 @@ class App(Frame):
             self.click_journal_file.write(self.click_text_file.get("1.0", END))
 
         self.click_journal_file.close()
-    
+
+
     # Part 4 New Learn Inquiry Function
     def new_learn_inquiry(self, event):
         '''method for learning about a national park after selecting one from dropdown menu'''
@@ -409,10 +409,8 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 3c to incorporate uploaded images - WIP
-# enable users to upload images to existing entries once they have been opened for editing?
-# add scrollbars where needed
-# style GUI (if time allows)
+# tweak Part 3c to incorporate uploaded images (WIP) - text files don't support images
+# troubleshoot saving existing entries
 
 
 
