@@ -7,6 +7,7 @@ import pandas as pd
 from PIL import Image,ImageTk
 import os
 import webbrowser
+from IPython.display import display
 
 JOURNAL_DIR = "./Journal Entries"
 
@@ -69,90 +70,116 @@ class App(Frame):
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
 
-    # Part 2 New Journal Entry Function
+    # Part 2a New Journal Entry Function - replaced self.textframe with self.second_frame
     def enter_new_journal_entry(self):
         '''method for creating a new journal entry'''
         self.journal_entry = Toplevel() # new window
         
-        self.textframe=Frame(self.journal_entry)
-        self.textframe.pack(padx=10, pady=10)
+        #self.textframe=Frame(self.journal_entry)
+        #self.textframe.pack(padx=10, pady=10)
+
+      # -----------------------------------------------------
+      # SCROLLBAR
+      # first frame
+        self.textframe=Frame(self.journal_entry) 
+        self.textframe.pack(fill=BOTH, expand=1)
+
+      # canvas
+        self.journal_canvas = Canvas(self.textframe, height=800, width=700)
+        self.journal_canvas.pack(side=LEFT, fill=BOTH, expand=1)
+
+      # scrollbar
+        self.journal_scrollbar = Scrollbar(self.textframe, orient=VERTICAL, command=self.journal_canvas.yview)
+        self.journal_scrollbar.pack(side=RIGHT, fill=Y)
+
+      # configure canvas
+        self.journal_canvas.configure(yscrollcommand=self.journal_scrollbar.set)
+        self.journal_canvas.bind('<Configure>', lambda e: self.journal_canvas.configure(scrollregion=self.journal_canvas.bbox("all")))
+
+      # second frame
+        self.second_frame = Frame(self.journal_canvas) # widgets go here
+
+      # add second frame to a window in canvas
+        self.journal_canvas.create_window((0,0), window=self.second_frame, anchor="nw")
+      # -----------------------------------------------------
         
         # Instructions
-        self.journal_label = Label(self.textframe, text="To complete a new journal entry and log the details of your national park experience, select the appropriate\nnational park from the dropdown menu and then record your memories in the text field. When finished, save\nyour entry by clicking the ‘save’ button.", justify='left')
+        self.journal_label = Label(self.second_frame, text="To complete a new journal entry and log the details of your national park experience, select the appropriate\nnational park from the dropdown menu and then record your memories in the text field. When finished, save\nyour entry by clicking the ‘save’ button.", justify='left')
         self.journal_label.pack(side=TOP , padx=10, pady=10)
 
         # Step-by-step instruction
-        self.dropdown_label = Label(self.textframe, text="1. Select a US National Park:")
+        self.dropdown_label = Label(self.second_frame, text="1. Select a US National Park:")
         self.dropdown_label.pack(padx=10, anchor=W)
         
         # Drop down menu on Journal window
         self.natpark_var = StringVar()
-        self.natpark_dropdown = OptionMenu(self.textframe, self.natpark_var, *self.parks_list)
+        self.natpark_dropdown = OptionMenu(self.second_frame, self.natpark_var, *self.parks_list)
         self.natpark_dropdown.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
-        self.text_label = Label(self.textframe, text="2. Enter the details of your visit:")
+        self.text_label = Label(self.second_frame, text="2. Enter the details of your visit:")
         self.text_label.pack(padx=10, anchor=W)
 
         # Text box for journal details
-        self.text=Text(self.textframe, width=90, height=10, wrap=WORD)
+        self.text=Text(self.second_frame, width=90, height=10, wrap=WORD)
         self.text.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
-        self.image_upload_label = Label(self.textframe, text="3. Upload a picture from your visit:")
+        self.image_upload_label = Label(self.second_frame, text="3. Upload a picture from your visit:")
         self.image_upload_label.pack(padx=10, anchor=W)
         
         # Upload Image button
-        self.image_button = Button(self.textframe, text="Upload image", command = self.upload_image)
+        self.image_button = Button(self.second_frame, text="Upload image", command = self.upload_image)
         self.image_button.pack(padx=10, pady=10, anchor=W)
 
         # Label for an uploaded image
-        self.pic_label = Label(self.textframe)
+        self.pic_label = Label(self.second_frame)
         self.pic_label.pack(padx=10, pady=0, anchor=W)
 
         # Step-by-step instruction
-        self.rating_label = Label(self.textframe, text="4. Rate the selected National Park:")
+        self.rating_label = Label(self.second_frame, text="4. Rate the selected National Park:")
         self.rating_label.pack(padx=10, anchor=W)
 
         # Drop down menu for rating
         self.rating_var = StringVar()
-        self.rating_dropdown = OptionMenu(self.textframe, self.rating_var, "0", "1", "2", "3", "4", "5")
+        self.rating_dropdown = OptionMenu(self.second_frame, self.rating_var, "0", "1", "2", "3", "4", "5")
         self.rating_dropdown.pack(padx=10, pady=10, anchor=W)
 
         # Step-by-step instruction
-        self.ratingtext_label = Label(self.textframe, text="5. Optionally, justify your rating:")
+        self.ratingtext_label = Label(self.second_frame, text="5. Optionally, justify your rating:")
         self.ratingtext_label.pack(padx=10, anchor=W)
 
         # Text box for rating details
-        self.rating_text=Text(self.textframe, width=90, height=10, wrap=WORD)
+        self.rating_text=Text(self.second_frame, width=90, height=10, wrap=WORD)
         self.rating_text.pack(padx=10, pady=10, anchor=W)
 
         # Save button
-        self.journalentry_button = Button(self.textframe, text="Save", command=self.save_journal_entry)
+        self.journalentry_button = Button(self.second_frame, text="Save", command=self.save_journal_entry)
         self.journalentry_button.pack(padx=10, pady=10)
 
         # Cancel button
-        self.cancel_button = Button(self.textframe, text="Cancel", command=self.cancel_journal_entry)
+        self.cancel_button = Button(self.second_frame, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    # Part 3a Upload an Image - WIP
+    # Part 2b Upload an Image - WIP
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
         self.image_open = Image.open(self.upload_img_file)
-        #image_resize = image_open.resize((300, 200), Image.Resampling.LANCZOS)
-        self.image_resize = self.image_open.thumbnail((300, 225))
-        self.selected_pic = ImageTk.PhotoImage(self.image_resize)
+        self.image_open.thumbnail((300, 225))  # thumbnail internally changes the image, and does NOT return a changed copy!
+        self.selected_pic = ImageTk.PhotoImage(self.image_open)
         self.pic_label.configure(image=self.selected_pic)
         self.selected_pic.image=self.selected_pic # for garbage collection
     
-    # Part 3b Save Journal Entry Function
+    # Part 2c Save Journal Entry Function
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a text file'''
-        #current_date = datetime.datetime.now()
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
+        image_data = self.pic_label.cget('image') # wip
+        image = ImageTk.getimage(image_data) # wip
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
+        self.text_file.write(image) # wip
         self.text_file.close()
         self.journal_entry.destroy()
         self.entries_list.delete(0,END)
@@ -160,13 +187,13 @@ class App(Frame):
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
     
-    # Part 3c Cancel Journal Entry Function
+    # Part 2d Cancel Journal Entry Function
     def cancel_journal_entry(self):
         '''method for canceling creation of a new journal entry'''
         self.journal_entry.destroy()
 
-
-    # Part 4a Open Journal Entry Function
+    
+    # Part 3a Open Journal Entry Function
     def open_journal_entry(self):
         '''method for opening a journal entry via button'''
         #self.open_text_file.delete("1.0", END)
@@ -208,7 +235,7 @@ class App(Frame):
         self.cancel_journal_button.pack(padx=10, pady=5)
 
 
-    # Part 4b Open File Function
+    # Part 3b Open File Function
     def open_file(self):
         '''method for opening a different file for viewing/editing from file menu'''
         self.open_text_file.delete("1.0", END)
@@ -218,7 +245,7 @@ class App(Frame):
         self.open_text_file.insert(END, read_journal)
         self.journal_file.close()
 
-    # Part 4c Save File Function
+    # Part 3c Save File Function
     def save_file(self):
         '''method for saving a file after viewing/editing from file menu'''
         self.existing_filename = os.path.basename(self.journal_file.name)
@@ -227,7 +254,7 @@ class App(Frame):
         self.journal_file.write(self.open_text_file.get("1.0", END))
         self.journal_file.close()
 
-    # Part 4d Double Click Opening Journal Entry
+    # Part 3d Double Click Opening Journal Entry
     def double_click_journal(self, event):
         '''method to access an entry in listbox by double clicking on applicable entry'''
 
@@ -266,17 +293,17 @@ class App(Frame):
         self.cancel_journal_button = Button(self.click_journal_frame, text="Cancel", command=self.cancel_journal_edits)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-    # Part 4e Cancel Journal Edits Function
+    # Part 3e Cancel Journal Edits Function
     def cancel_journal_edits(self):
         '''method for canceling the viewing/editing of an existing journal entry - via button mode'''
         self.click_journal_entry.destroy()
 
-    # Part 4f Cancel Journal Edits Function
+    # Part 3f Cancel Journal Edits Function
     def cancel_journal_changes(self):
         '''method for canceling the viewing/editing of an existing journal entry - via double clicked mode'''
         self.open_journal_entry.destroy()
 
-    # Part 4g Open File Function for Double Click Method
+    # Part 3g Open File Function for Double Click Method
     def open_clicked_file(self):
         '''method for opening an existing journal entry - via double clicked mode'''
         self.click_text_file.delete("1.0", END)
@@ -286,7 +313,7 @@ class App(Frame):
         self.click_text_file.insert(END, read_journal)
         self.click_journal_file.close()
 
-    # Part 4h Save File Function for Double Click Method
+    # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
         '''method for saving an existing journal entry - via double clicked mode'''
         self.click_existing_filename = os.path.basename(self.click_journal_file)
@@ -299,7 +326,7 @@ class App(Frame):
 
         self.click_journal_file.close()
     
-    # Part 5 New Learn Inquiry Function
+    # Part 4 New Learn Inquiry Function
     def new_learn_inquiry(self, event):
         '''method for learning about a national park after selecting one from dropdown menu'''
         # Destroy frame created above to clear contents of the frame
