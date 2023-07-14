@@ -246,10 +246,10 @@ class App(Frame):
     def save_file(self):
         '''method for saving a file after viewing/editing from file menu'''
         self.existing_filename = os.path.basename(self.journal_file.name)
-        self.journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
-        self.journal_file = open(self.journal_file, 'w+') 
-        self.journal_file.write(self.open_text_file.get("1.0", END))
-        self.journal_file.close()
+        self.journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
+        self.journal_file_save = open(self.journal_file_save, 'w+') 
+        self.journal_file_save.write(self.open_text_file.get("1.0", END))
+        self.journal_file_save.close()
 
     # Part 3d Double Click Opening Journal Entry
     def double_click_journal(self, event):
@@ -306,22 +306,20 @@ class App(Frame):
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.click_journal_file = open(self.click_journal_file, 'r')
-        read_journal = self.click_journal_file.read()
-        self.click_text_file.insert(END, read_journal)
+        read_journals = self.click_journal_file.read()
+        self.click_text_file.insert(END, read_journals)
         self.click_journal_file.close()
 
     # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
         '''method for saving an existing journal entry - via double clicked mode'''
         self.click_existing_filename = os.path.basename(self.click_journal_file)
-        self.click_journal_file = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
-        #self.click_journal_file = open(self.click_journal_file, 'w+')
-        #self.click_journal_file.write(self.click_text_file.get("1.0", END))
-        
-        with open(self.click_journal_file, 'w+') as self.click_journal_file:
-            self.click_journal_file.write(self.click_text_file.get("1.0", END))
+        self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
 
-        self.click_journal_file.close()
+        with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
+            self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
+
+        self.click_journal_file_save.close()
 
 
     # Part 4 New Learn Inquiry Function
@@ -409,13 +407,14 @@ class App(Frame):
        
         
 # TO DO LIST
+# troubleshoot saving existing entries - 3g and 3h
 # tweak Part 3c to incorporate uploaded images (WIP) - text files don't support images
-# troubleshoot saving existing entries
+
 
 
 
 master = Tk()  # create a Tk window called master
-master.title("National Park Journal for Outdoor Enthusiasts TkInter GUI - WIP")
+master.title("National Park Journal for Outdoor Enthusiasts TkInter GUI")
 myapp = App(master) # create App object within master (Tk) windowmaster.mainloop() # draw master window, react to events only
 master.mainloop() # draw master window, react to events 
 print("Done")
