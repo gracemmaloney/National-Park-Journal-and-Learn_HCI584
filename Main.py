@@ -176,10 +176,9 @@ class App(Frame):
         '''method for saving the details of a new journal entry as a text file'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         image_data = self.pic_label.cget('image') # wip
-        image = ImageTk.getimage(image_data) # wip
-        file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
+        image_str = str(image_data + "\n") # wip
+        file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
-        self.text_file.write(image) # wip
         self.text_file.close()
         self.journal_entry.destroy()
         self.entries_list.delete(0,END)
