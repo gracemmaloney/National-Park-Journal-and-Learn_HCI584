@@ -306,11 +306,11 @@ class App(Frame):
     def open_clicked_file(self):
         '''method for opening an existing journal entry - via file function of double clicked mode'''
         self.click_text_file.delete("1.0", END)
-        self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
-        self.click_journal_file = open(self.click_journal_file, 'r')
-        read_journals = self.click_journal_file.read()
+        self.clicked_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
+        self.clicked_journal_file = open(self.clicked_journal_file, 'r')
+        read_journals = self.clicked_journal_file.read()
         self.click_text_file.insert(END, read_journals)
-        self.click_journal_file.close()
+        self.clicked_journal_file.close()
         
     # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
@@ -324,7 +324,8 @@ class App(Frame):
 
                 self.click_journal_file_save.close()
         except:
-            self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, title="Save Journal Entry Text File")
+            self.clicked_existing_filename = os.path.basename(self.clicked_journal_file)
+            self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.clicked_existing_filename, title="Save Journal Entry Text File")
 
             with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
                 self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
