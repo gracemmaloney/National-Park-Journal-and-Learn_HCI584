@@ -51,6 +51,8 @@ class App(Frame):
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
 
+        self.click_journal_file = "" # WIP
+
         # Open a journal entry button
         self.open_journal_button = Button(self.frame1, text="Open a journal entry",  command=self.open_journal_entry) 
         self.open_journal_button.pack(padx=10, pady=5, anchor=W)
@@ -302,24 +304,32 @@ class App(Frame):
 
     # Part 3g Open File Function for Double Click Method
     def open_clicked_file(self):
-        '''method for opening an existing journal entry - via double clicked mode'''
+        '''method for opening an existing journal entry - via file function of double clicked mode'''
         self.click_text_file.delete("1.0", END)
         self.click_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.click_journal_file = open(self.click_journal_file, 'r')
         read_journals = self.click_journal_file.read()
         self.click_text_file.insert(END, read_journals)
         self.click_journal_file.close()
-
+        
     # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
-        '''method for saving an existing journal entry - via double clicked mode'''
-        self.click_existing_filename = os.path.basename(self.click_journal_file)
-        self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
+        '''method for saving an existing journal entry - via file function of double clicked mode'''
+        try:
+            self.click_existing_filename = os.path.basename(self.click_journal_file)
+            self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
 
-        with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
-            self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
+            with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
+                self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
 
-        self.click_journal_file_save.close()
+                self.click_journal_file_save.close()
+        except:
+            self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, title="Save Journal Entry Text File")
+
+            with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
+                self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
+
+                self.click_journal_file_save.close()
 
 
     # Part 4 New Learn Inquiry Function
@@ -407,7 +417,6 @@ class App(Frame):
        
         
 # TO DO LIST
-# troubleshoot saving existing entries - 3g and 3h
 # tweak Part 3c to incorporate uploaded images (WIP) - text files don't support images
 
 
