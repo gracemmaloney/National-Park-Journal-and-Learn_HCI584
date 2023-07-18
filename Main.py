@@ -177,7 +177,7 @@ class App(Frame):
         '''method for saving the details of a new journal entry as a text file'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".doc", filetypes=[("Word File", ".doc")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         get_image = self.pic_label.cget('image') # wip
-        image_str = str(get_image + "\n") # wip
+        image_str = str(get_image + "\n") # wip, placeholder
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n"+ image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
         self.text_file.close()
@@ -418,7 +418,7 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 2c to incorporate uploaded images (WIP)
+# tweak Part 2c to incorporate uploaded image from part 2b in word (.doc) file - WIP
 
 
 
