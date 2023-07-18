@@ -175,10 +175,10 @@ class App(Frame):
     # Part 2c Save Journal Entry Function  - WIP
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a text file'''
-        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
+        self.text_file = filedialog.asksaveasfile(defaultextension=".doc", filetypes=[("Word File", ".doc")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         get_image = self.pic_label.cget('image') # wip
         image_str = str(get_image + "\n") # wip
-        file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n" + image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
+        file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n"+ image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
         self.text_file.close()
         self.journal_entry.destroy()
@@ -304,7 +304,7 @@ class App(Frame):
 
     # Part 3g Open File Function for Double Click Method
     def open_clicked_file(self):
-        '''method for opening an existing journal entry - via file function of double clicked mode'''
+        '''method for opening an existing journal entry - via double clicked mode'''
         self.click_text_file.delete("1.0", END)
         self.clicked_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.clicked_journal_file = open(self.clicked_journal_file, 'r')
@@ -314,7 +314,7 @@ class App(Frame):
         
     # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
-        '''method for saving an existing journal entry - via file function of double clicked mode'''
+        '''method for saving an existing journal entry - via double clicked mode'''
         try:
             self.click_existing_filename = os.path.basename(self.click_journal_file)
             self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
@@ -418,7 +418,7 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 3c to incorporate uploaded images (WIP) - text files don't support images
+# tweak Part 2c to incorporate uploaded images (WIP)
 
 
 
