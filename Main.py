@@ -7,8 +7,8 @@ import pandas as pd
 from PIL import Image,ImageTk
 import os
 import webbrowser
-from docx import Document
-from docx.shared import Inches
+#from docx import Document
+#from docx.shared import Inches
 
 JOURNAL_DIR = "./Journal Entries"
 
@@ -435,7 +435,7 @@ class App(Frame):
         
 # TO DO LIST
 # tweak Part 2c to incorporate uploaded image from part 2b in word (.doc) file - WIP
-# Clean up existing entries folder
+# Clean up existing entries folder before code freeze
 
 
 
