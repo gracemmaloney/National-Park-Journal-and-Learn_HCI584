@@ -7,6 +7,8 @@ import pandas as pd
 from PIL import Image,ImageTk
 import os
 import webbrowser
+from docx import Document
+from docx.shared import Inches
 
 JOURNAL_DIR = "./Journal Entries"
 
@@ -166,6 +168,8 @@ class App(Frame):
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
+        global img_file_uploaded
+        img_file_uploaded = self.upload_img_file
         self.image_open = Image.open(self.upload_img_file)
         self.image_open.thumbnail((300, 225))  # thumbnail internally changes the image, and does NOT return a changed copy!
         self.selected_pic = ImageTk.PhotoImage(self.image_open)
@@ -175,12 +179,24 @@ class App(Frame):
     # Part 2c Save Journal Entry Function  - WIP
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a text file'''
-        self.text_file = filedialog.asksaveasfile(defaultextension=".doc", filetypes=[("Word File", ".doc")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
+        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Word File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         get_image = self.pic_label.cget('image') # wip
         image_str = str(get_image + "\n") # wip, placeholder
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n"+ image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
         self.text_file.write(file_text)
         self.text_file.close()
+
+        #-----------------------------------------------------------------------------------------------------------------
+        # this code would need to go with .docx filetypes and supports text and images, but can't be displayed in tkinter
+        #document.add_paragraph("National Park Visited: " + self.natpark_var.get())
+        #document.add_paragraph("Details: " + self.text.get(1.0, END))
+        #document.add_paragraph("Rating: " + self.rating_var.get())
+        #document.add_paragraph("Rating Details: " + self.rating_text.get(1.0, END))
+        #document.add_picture(img_file_uploaded, width=Inches(4), height=Inches(3))
+        #document.save(self.text_file.name)
+        #self.text_file.close()
+        #-----------------------------------------------------------------------------------------------------------------
+
         self.journal_entry.destroy()
         self.entries_list.delete(0,END)
         self.journal_entry_list = os.listdir(JOURNAL_DIR)
@@ -419,6 +435,7 @@ class App(Frame):
         
 # TO DO LIST
 # tweak Part 2c to incorporate uploaded image from part 2b in word (.doc) file - WIP
+# Clean up existing entries folder
 
 
 
