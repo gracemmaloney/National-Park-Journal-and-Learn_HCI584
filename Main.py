@@ -11,6 +11,7 @@ import webbrowser
 #from docx.shared import Inches
 
 JOURNAL_DIR = "./Journal Entries"
+PHOTOS_DIR = "./Journal Photos"
 
 
 class App(Frame):
