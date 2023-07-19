@@ -21,11 +21,13 @@ class App(Frame):
         # Part 1) Tabular Journal (default) vs. Learn Windows Set Up
         self.notebook = ttk.Notebook(self.master, width=850, height=800)
 
+        # Frames
         self.frame1 = Frame(self.notebook)
         self.frame2 = Frame(self.notebook)
         self.frame1.pack(padx=10, pady=10)
         self.frame2.pack(padx=10, pady=10)
 
+        # Tabs
         self.notebook.add(self.frame1, text="Journal")
         self.notebook.add(self.frame2, text="Learn")
         self.notebook.pack(padx=10, pady=10)
@@ -53,7 +55,7 @@ class App(Frame):
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
 
-        self.click_journal_file = "" # WIP
+        self.click_journal_file = ""
 
         # Open a journal entry button
         self.open_journal_button = Button(self.frame1, text="Open a journal entry",  command=self.open_journal_entry) 
@@ -64,7 +66,7 @@ class App(Frame):
         park_names = app_data["Name"]
         self.parks_list = list(park_names)
         self.natpark_learn_var = StringVar()
-        self.natpark_learn_var.set("Select a National Park")
+        self.natpark_learn_var.set("Select a National Park") # default shown before a national park is selected from the dropdown menu
         self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *self.parks_list, command=self.new_learn_inquiry)
         self.learn_dropdown.pack(padx=15, pady=10, anchor=W)
 
@@ -73,38 +75,35 @@ class App(Frame):
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
 
-    # Part 2a New Journal Entry Function - replaced self.textframe with self.second_frame
+    # Part 2a New Journal Entry Function
     def enter_new_journal_entry(self):
         '''method for creating a new journal entry'''
         self.journal_entry = Toplevel() # new window
-        
-        #self.textframe=Frame(self.journal_entry)
-        #self.textframe.pack(padx=10, pady=10)
 
-      # -----------------------------------------------------
-      # SCROLLBAR
-      # first frame
+      # -------------------------------------------------------------------------------------------------------------------------------------
+      # SCROLLBAR WIDGETS
+      # First frame
         self.textframe=Frame(self.journal_entry) 
         self.textframe.pack(fill=BOTH, expand=1)
 
-      # canvas
+      # Canvas
         self.journal_canvas = Canvas(self.textframe, height=800, width=700)
         self.journal_canvas.pack(side=LEFT, fill=BOTH, expand=1)
 
-      # scrollbar
+      # Scrollbar
         self.journal_scrollbar = Scrollbar(self.textframe, orient=VERTICAL, command=self.journal_canvas.yview)
         self.journal_scrollbar.pack(side=RIGHT, fill=Y)
 
-      # configure canvas
+      # Configure canvas
         self.journal_canvas.configure(yscrollcommand=self.journal_scrollbar.set)
         self.journal_canvas.bind('<Configure>', lambda e: self.journal_canvas.configure(scrollregion=self.journal_canvas.bbox("all")))
 
-      # second frame
+      # Second frame
         self.second_frame = Frame(self.journal_canvas) # widgets go here
 
-      # add second frame to a window in canvas
+      # Add second frame to a window in canvas
         self.journal_canvas.create_window((0,0), window=self.second_frame, anchor="nw")
-      # -----------------------------------------------------
+      # -------------------------------------------------------------------------------------------------------------------------------------
         
         # Instructions
         self.journal_label = Label(self.second_frame, text="To complete a new journal entry and log the details of your national park experience, select the appropriate\nnational park from the dropdown menu and then record your memories in the text field. When finished, save\nyour entry by clicking the ‘save’ button.", justify='left')
@@ -176,18 +175,20 @@ class App(Frame):
         self.pic_label.configure(image=self.selected_pic)
         self.selected_pic.image=self.selected_pic # for garbage collection
     
-    # Part 2c Save Journal Entry Function  - WIP
+    # Part 2c Save Journal Entry Function - WIP
     def save_journal_entry(self):
-        '''method for saving the details of a new journal entry as a text file'''
-        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Word File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
+        '''method for saving the details of a new journal entry as a file that can be accessed later'''
+        self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         get_image = self.pic_label.cget('image') # wip
-        image_str = str(get_image + "\n") # wip, placeholder
+        image_str = str(get_image + "\n") # wip
         file_text = str("National Park Visited: " + self.natpark_var.get() + "\n" + "Details: " + self.text.get(1.0, END) + "\n"+ image_str + "\n" + "Rating: " + self.rating_var.get() + "\n" + "Rating Details: " + self.rating_text.get(1.0, END))
-        self.text_file.write(file_text)
-        self.text_file.close()
+        self.text_file.write(file_text) # write contents
+        self.text_file.close() # close file
 
-        #-----------------------------------------------------------------------------------------------------------------
-        # this code would need to go with .docx filetypes and supports text and images, but can't be displayed in tkinter
+        #----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        # this code would need to go with .docx filetypes and supports text and images, but can't be displayed in tkinter :(
+        # might be useful later, but would need to activate the docx imports in lines 10-11 above
+        #self.text_file = filedialog.asksaveasfile(defaultextension=".docx", filetypes=[("Word File", ".docx")], initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         #document.add_paragraph("National Park Visited: " + self.natpark_var.get())
         #document.add_paragraph("Details: " + self.text.get(1.0, END))
         #document.add_paragraph("Rating: " + self.rating_var.get())
@@ -195,25 +196,24 @@ class App(Frame):
         #document.add_picture(img_file_uploaded, width=Inches(4), height=Inches(3))
         #document.save(self.text_file.name)
         #self.text_file.close()
-        #-----------------------------------------------------------------------------------------------------------------
+        #----------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-        self.journal_entry.destroy()
-        self.entries_list.delete(0,END)
-        self.journal_entry_list = os.listdir(JOURNAL_DIR)
-        for item in self.journal_entry_list:
-            self.entries_list.insert(END, item)
+        self.journal_entry.destroy() # close window
+        self.entries_list.delete(0,END) # clear entries
+        self.journal_entry_list = os.listdir(JOURNAL_DIR) # grab list
+        for item in self.journal_entry_list: # populate entries list
+            self.entries_list.insert(END, item) 
     
     # Part 2d Cancel Journal Entry Function
     def cancel_journal_entry(self):
         '''method for canceling creation of a new journal entry'''
-        self.journal_entry.destroy()
+        self.journal_entry.destroy() # close window
 
     
     # Part 3a Open Journal Entry Function
     def open_journal_entry(self):
-        '''method for opening a journal entry via button'''
-        #self.open_text_file.delete("1.0", END)
-
+        '''method for opening a journal entry via the 'Open a journal entry' button'''
+        
         # Select file to open
         self.journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.journal_file = open(self.journal_file, 'r')
@@ -222,11 +222,11 @@ class App(Frame):
         # New window for frame and text box
         self.open_journal_entry = Toplevel() # new window
         
-        # frame for text file
+        # Frame for text box
         self.open_journal_frame=Frame(self.open_journal_entry)
         self.open_journal_frame.pack(padx=10, pady=10)   
         
-        # Text box for text file to appear in when opened
+        # Text box for file contents to appear in when opened
         self.open_text_file = Text(self.open_journal_frame, width=90, height=20)
         self.open_text_file.pack(padx=10, pady=10)
        
@@ -252,7 +252,7 @@ class App(Frame):
 
     # Part 3b Open File Function
     def open_file(self):
-        '''method for opening a different file for viewing/editing from file menu'''
+        '''method for opening a different existing journal entry via file menu 'Open' option'''
         self.open_text_file.delete("1.0", END)
         self.journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.journal_file = open(self.journal_file, 'r')
@@ -262,7 +262,7 @@ class App(Frame):
 
     # Part 3c Save File Function
     def save_file(self):
-        '''method for saving a file after viewing/editing from file menu'''
+        '''method for saving a journal file via the file menu Save option or the Save button'''
         self.existing_filename = os.path.basename(self.journal_file.name)
         self.journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
         self.journal_file_save = open(self.journal_file_save, 'w+') 
@@ -271,7 +271,7 @@ class App(Frame):
 
     # Part 3d Double Click Opening Journal Entry
     def double_click_journal(self, event):
-        '''method to access an entry in listbox by double clicking on applicable entry'''
+        '''method for opening and accessing a journal file from the listbox by double clicking on the applicable journal file'''
 
         # New window for frame and text box
         self.click_journal_entry = Toplevel() # new window
@@ -284,6 +284,7 @@ class App(Frame):
         self.click_text_file = Text(self.click_journal_frame, width=90, height=20)
         self.click_text_file.pack(padx=10, pady=10)
 
+        # Open the journal entry file clicked on from the listbox
         self.click_journal_file = self.entries_list.get(ACTIVE)
         folder_path = JOURNAL_DIR
         file_path = os.path.join(folder_path, self.click_journal_file)
@@ -308,19 +309,19 @@ class App(Frame):
         self.cancel_journal_button = Button(self.click_journal_frame, text="Cancel", command=self.cancel_journal_edits)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-    # Part 3e Cancel Journal Edits Function
+    # Part 3e Cancel Journal Edits Button Function
     def cancel_journal_edits(self):
-        '''method for canceling the viewing/editing of an existing journal entry - via button mode'''
+        '''method for canceling the viewing/editing of an existing journal entry - via double clicked mode'''
         self.click_journal_entry.destroy()
 
-    # Part 3f Cancel Journal Edits Function
+    # Part 3f Cancel Journal Changes Button Function
     def cancel_journal_changes(self):
-        '''method for canceling the viewing/editing of an existing journal entry - via double clicked mode'''
+        '''method for canceling the viewing/editing of an existing journal entry - via 'Open a journal entry' button mode'''
         self.open_journal_entry.destroy()
 
-    # Part 3g Open File Function for Double Click Method
+    # Part 3g Open File Menu Function for Double Click Mode
     def open_clicked_file(self):
-        '''method for opening an existing journal entry - via double clicked mode'''
+        '''method for opening a different existing journal entry via file menu 'Open' option for double clicked mode'''
         self.click_text_file.delete("1.0", END)
         self.clicked_journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.clicked_journal_file = open(self.clicked_journal_file, 'r')
@@ -330,8 +331,8 @@ class App(Frame):
         
     # Part 3h Save File Function for Double Click Method
     def save_clicked_file(self):
-        '''method for saving an existing journal entry - via double clicked mode'''
-        try:
+        '''method for saving an existing journal entry via file menu option or button for double clicked mode'''
+        try: # for simply saving the same journal file that was opened directly from the listbox
             self.click_existing_filename = os.path.basename(self.click_journal_file)
             self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.click_existing_filename, title="Save Journal Entry Text File")
 
@@ -339,7 +340,7 @@ class App(Frame):
                 self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
 
                 self.click_journal_file_save.close()
-        except:
+        except: # for saving a different journal file that is opened with the 'Open' file menu option after opening an initial journal file from the listbox
             self.clicked_existing_filename = os.path.basename(self.clicked_journal_file)
             self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.clicked_existing_filename, title="Save Journal Entry Text File")
 
@@ -352,6 +353,7 @@ class App(Frame):
     # Part 4 New Learn Inquiry Function
     def new_learn_inquiry(self, event):
         '''method for learning about a national park after selecting one from dropdown menu'''
+
         # Destroy frame created above to clear contents of the frame
         self.learn_info_frame.destroy() 
         
@@ -434,7 +436,7 @@ class App(Frame):
        
         
 # TO DO LIST
-# tweak Part 2c to incorporate uploaded image from part 2b in word (.doc) file - WIP
+# tweak Part 2c to incorporate uploaded image from part 2b - WIP
 # Clean up existing entries folder before code freeze
 
 
