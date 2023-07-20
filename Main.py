@@ -19,7 +19,7 @@ class App(Frame):
         '''main application window setup for journal and learn tabs'''
         self.master = master # store link to master window, use as frame to put all other widgets into
         
-        # Part 1) Tabular Journal (default) vs. Learn Windows Set Up
+        # Part 1a Tabular Journal (default) vs. Learn Windows Set Up
         self.notebook = ttk.Notebook(self.master, width=850, height=800)
 
         # Frames
@@ -36,32 +36,33 @@ class App(Frame):
         # Initial instructions for user to review upon viewing each tab
         self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button.")
         self.frame2_label = Label(self.frame2, text="To learn about a national park, select the appropriate national park from the dropdown menu.")
-        self.frame1_label.pack(padx=10, pady=10, anchor=W)
+        self.frame1_label.pack(padx=10, pady=(10,5), anchor=W)
         self.frame2_label.pack(padx=15, pady=10, anchor=W)
 
         # Create new journal button
         self.journal_button = Button(self.frame1, text="Create new journal entry", command=self.enter_new_journal_entry)
-        self.journal_button.pack(padx=10, pady=5, anchor=W)
+        self.journal_button.pack(padx=10, pady=(0,5), anchor=W)
 
         # Existing entries label
         self.ext_entries_label = Label(self.frame1, text="Existing entries:")
-        self.ext_entries_label.pack(padx=10, pady=5, anchor=W)
+        self.ext_entries_label.pack(padx=10, pady=(15,0), anchor=W)
 
         # Listbox listing existing entries
         self.entries_list = Listbox(self.frame1, width=50, height=10, selectmode=SINGLE)
         self.entries_list.bind("<Double-Button-1>", self.double_click_journal)
+
+        # Open a journal entry button
+        self.open_journal_button = Button(self.frame1, text="Open a journal entry",  command=self.open_journal_entry) 
+        self.open_journal_button.pack(padx=10, pady=0, anchor=W)
         
-        self.entries_list.pack(padx=10, pady=10, anchor=W)
+        # Existing entries listbox
+        self.entries_list.pack(padx=10, pady=5, anchor=W)
         self.journal_entry_list = os.listdir(JOURNAL_DIR)
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
 
         self.click_journal_file = ""
-
-        # Open a journal entry button
-        self.open_journal_button = Button(self.frame1, text="Open a journal entry",  command=self.open_journal_entry) 
-        self.open_journal_button.pack(padx=10, pady=5, anchor=W)
-
+        
         # Drop down menu on Learn tab + read in excel file
         app_data = pd.read_excel("Database - Learn.xlsx")
         park_names = app_data["Name"]
@@ -75,7 +76,61 @@ class App(Frame):
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
+        # Image display CTA
+        self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to National Parks that you love? Add them to the Journal Photos folder to see them below!")
+        self.pic_CTA_label.pack(padx=10, pady=(40,0), anchor=W)
+        
+        # Image display instruction
+        self.pic_instruction_label = Label(self.frame1, text="Use the Forward and Back buttons to scroll through the images below.")
+        self.pic_instruction_label.pack(padx=10, pady=(0,0), anchor=W)
+        
+        # Image display
+        global pic_list
+        pic_list = []
+        self.pic_number = 0
+        pics = os.listdir(PHOTOS_DIR)
+        for pic in pics:
+            pics_path = os.path.join(PHOTOS_DIR, pic)
+            with Image.open(pics_path) as picture:
+                picture.thumbnail((300, 225))
+                displayed_pic = ImageTk.PhotoImage(picture)
+                pic_list.append(displayed_pic)
+        
+        # Image display label
+        self.pic_display_label = Label(self.frame1, image=displayed_pic)
+        self.pic_display_label.pack(padx=10, pady=(5,0), anchor=W)
 
+        # Navigation buttons
+        self.back_button = Button(self.frame1, text="Back", command=self.scroll_backward)
+        self.forward_button = Button(self.frame1, text="Forward", command=lambda: self.scroll_forward(2))
+        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+
+    # Part 1b 
+    def scroll_forward(self, pic_number):
+        self.pic_display_label.pack_forget()
+        self.forward_button.pack_forget()
+        self.back_button.pack_forget()
+        self.pic_display_label = Label(self.frame1, image=pic_list[(pic_number-1) % len(pic_list)])
+        self.pic_display_label.pack(padx=10, pady=(20,0), anchor=W)
+        self.forward_button.config(command=lambda: self.scroll_forward((pic_number + 1) % len(pic_list)))
+        self.back_button.config(command=lambda: self.scroll_backward((pic_number - 1) % len(pic_list)))
+        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+        
+    # Part 1c
+    def scroll_backward(self, pic_number):
+        self.pic_display_label.pack_forget()
+        self.forward_button.pack_forget()
+        self.back_button.pack_forget()
+        self.pic_display_label = Label(self.frame1, image=pic_list[(pic_number-1) % len(pic_list)])
+        self.pic_display_label.pack(padx=10, pady=(20,0), anchor=W)
+        self.forward_button.config(command=lambda: self.scroll_forward((pic_number + 1) % len(pic_list)))
+        self.back_button.config(command=lambda: self.scroll_backward((pic_number - 1) % len(pic_list)))
+        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+
+       
     # Part 2a New Journal Entry Function
     def enter_new_journal_entry(self):
         '''method for creating a new journal entry'''
@@ -168,7 +223,7 @@ class App(Frame):
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
-        global img_file_uploaded
+        global img_file_uploaded # global variable to support part 2c below (.docx code)
         img_file_uploaded = self.upload_img_file
         self.image_open = Image.open(self.upload_img_file)
         self.image_open.thumbnail((300, 225))  # thumbnail internally changes the image, and does NOT return a changed copy!
