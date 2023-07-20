@@ -493,7 +493,7 @@ class App(Frame):
         
 # TO DO LIST
 # tweak Part 2c to incorporate uploaded image from part 2b - WIP
-# Clean up existing entries folder before code freeze
+# Clean up existing entries folder, journal photos folder, and code before code freeze
 
 
 
