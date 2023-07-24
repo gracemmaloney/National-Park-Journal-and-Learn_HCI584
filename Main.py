@@ -35,7 +35,7 @@ class App(Frame):
 
         # Initial instructions for user to review upon viewing each tab
         self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button below.")
-        self.frame2_label = Label(self.frame2, text="To learn about a national park, select the appropriate national park from the dropdown menu.")
+        self.frame2_label = Label(self.frame2, text="To learn about a US National Park, select the appropriate National Park from the dropdown menu.")
         self.frame1_label.pack(padx=10, pady=(10,5), anchor=W)
         self.frame2_label.pack(padx=10, pady=(10), anchor=W)
 
@@ -77,7 +77,7 @@ class App(Frame):
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
         # Image display CTA
-        self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to National Parks? Add them to the Journal Photos folder to see them below!")
+        self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to US National Parks? Add them to the Journal Photos folder to see them below!")
         self.pic_CTA_label.pack(padx=10, pady=(15,0), anchor=W)
         
         # Image display instruction
@@ -162,7 +162,7 @@ class App(Frame):
       # -------------------------------------------------------------------------------------------------------------------------------------
         
         # Instructions
-        self.journal_label = Label(self.second_frame, text="To complete a new journal entry and log the details of your national park experience, select the appropriate\nnational park from the dropdown menu and then record your memories in the text field. When finished, save\nyour entry by clicking the ‘save’ button.", justify='left')
+        self.journal_label = Label(self.second_frame, text="To complete a new journal entry and log the details of your national park experience, select the appropriate\nnational park from the dropdown menu and then record your memories in the text field. When finished, save\nyour entry by clicking the ‘Save’ button.", justify='left')
         self.journal_label.pack(side=TOP , padx=10, pady=10)
 
         # Step-by-step instruction
@@ -195,7 +195,7 @@ class App(Frame):
         self.pic_label.pack(padx=10, pady=0, anchor=W)
 
         # Step-by-step instruction
-        self.rating_label = Label(self.second_frame, text="4. Rate the selected National Park:")
+        self.rating_label = Label(self.second_frame, text="4. Rate the selected US National Park:")
         self.rating_label.pack(padx=10, anchor=W)
 
         # Drop down menu for rating
