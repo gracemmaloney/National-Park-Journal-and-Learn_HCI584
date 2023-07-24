@@ -14,7 +14,7 @@ Project Repo Structure:
 2. Run/execute Main.py
 -------------------
 # How to Use
-If you prefer to view a step-by-step video walkthrough, one can be found here:
+If you prefer to view a step-by-step video walkthrough, one can be found here: https://www.loom.com/share/cda160aee29949a6b9775eba417c7d2f
 
 1. Once Main.py has been executed, the application will open with the Journal tab displayed by default.
 <img width="928" alt="Step 1" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/eb346e1f-db1b-4a9f-89d6-453d419e7370">
