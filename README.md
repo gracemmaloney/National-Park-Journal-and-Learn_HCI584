@@ -37,10 +37,10 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 7. To view or edit an existing journal entry, you can click the 'Open a journal entry' button or double click an entry from the listbox.
 <img width="928" alt="Step 7" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/8477456d-6eeb-4884-a32f-07a9514d8add">
 
-8. A filedialog window will appear for you to select the applicable journal entry from the Journal Entries folder.
+8. If using the button, a filedialog window will appear for you to select the applicable journal entry from the Journal Entries folder.
 <img width="807" alt="Step 8" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/1684275a-33d8-4bd4-ba76-e1353219ac6e">
 
-9. Once the applicable journal entry is selected and opened from the filedialog, the contents of the entry will appear in a new window, where the entry can be viewed, edited, and saved, as needed. Saving can be done by clicking the 'Save' button at the bottom of the entry window, or by navigating to the File Menu and selecting the 'Save' option.
+9. Once the applicable journal entry is selected and opened, the contents of the entry will appear in a new window, where the entry can be viewed, edited, and saved, as needed. Saving can be done by clicking the 'Save' button at the bottom of the entry window, or by navigating to the File Menu and selecting the 'Save' option.
 <img width="683" alt="Step 9a" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/07576b27-b2db-49ab-b7f2-1a33a07dc60d">
 <img width="197" alt="Step 9b" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/337598a9-8d58-436d-b2b6-9f2f83e63377">
 
