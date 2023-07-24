@@ -19,7 +19,7 @@ class App(Frame):
         '''main application window setup for journal and learn tabs'''
         self.master = master # store link to master window, use as frame to put all other widgets into
         
-        # Part 1a Tabular Journal (default) vs. Learn Windows Set Up
+        # Part 1a Tabular Journal (Default) vs. Learn Windows Set Up
         self.notebook = ttk.Notebook(self.master, width=850, height=800)
 
         # Frames
@@ -34,18 +34,18 @@ class App(Frame):
         self.notebook.pack(padx=10, pady=10)
 
         # Initial instructions for user to review upon viewing each tab
-        self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button.")
+        self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button below.")
         self.frame2_label = Label(self.frame2, text="To learn about a national park, select the appropriate national park from the dropdown menu.")
         self.frame1_label.pack(padx=10, pady=(10,5), anchor=W)
-        self.frame2_label.pack(padx=15, pady=10, anchor=W)
+        self.frame2_label.pack(padx=10, pady=(10), anchor=W)
 
         # Create new journal button
         self.journal_button = Button(self.frame1, text="Create new journal entry", command=self.enter_new_journal_entry)
         self.journal_button.pack(padx=10, pady=(0,5), anchor=W)
 
         # Existing entries label
-        self.ext_entries_label = Label(self.frame1, text="Existing entries:")
-        self.ext_entries_label.pack(padx=10, pady=(15,0), anchor=W)
+        self.ext_entries_label = Label(self.frame1, text="To view an existing journal entry, click on the Open a journal entry button or double click on an entry from the list below.")
+        self.ext_entries_label.pack(padx=10, pady=(15,5), anchor=W)
 
         # Listbox listing existing entries
         self.entries_list = Listbox(self.frame1, width=50, height=10, selectmode=SINGLE)
@@ -56,7 +56,7 @@ class App(Frame):
         self.open_journal_button.pack(padx=10, pady=0, anchor=W)
         
         # Existing entries listbox
-        self.entries_list.pack(padx=10, pady=5, anchor=W)
+        self.entries_list.pack(padx=15, pady=10, anchor=W)
         self.journal_entry_list = os.listdir(JOURNAL_DIR)
         for item in self.journal_entry_list:
             self.entries_list.insert(END, item)
@@ -70,18 +70,18 @@ class App(Frame):
         self.natpark_learn_var = StringVar()
         self.natpark_learn_var.set("Select a National Park") # default shown before a national park is selected from the dropdown menu
         self.learn_dropdown = OptionMenu(self.frame2, self.natpark_learn_var, *self.parks_list, command=self.new_learn_inquiry)
-        self.learn_dropdown.pack(padx=15, pady=10, anchor=W)
+        self.learn_dropdown.pack(padx=15, pady=(0,5), anchor=W)
 
         # Frame that will be cleared below each time a user selects a park to learn about
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
 
         # Image display CTA
-        self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to National Parks that you love? Add them to the Journal Photos folder to see them below!")
-        self.pic_CTA_label.pack(padx=10, pady=(40,0), anchor=W)
+        self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to National Parks? Add them to the Journal Photos folder to see them below!")
+        self.pic_CTA_label.pack(padx=10, pady=(15,0), anchor=W)
         
         # Image display instruction
-        self.pic_instruction_label = Label(self.frame1, text="Use the Forward and Back buttons to scroll through the images below.")
+        self.pic_instruction_label = Label(self.frame1, text="Use the Forward and Back buttons to scroll through the images.")
         self.pic_instruction_label.pack(padx=10, pady=(0,0), anchor=W)
         
         # Image display
@@ -92,43 +92,43 @@ class App(Frame):
         for pic in pics:
             pics_path = os.path.join(PHOTOS_DIR, pic)
             with Image.open(pics_path) as picture:
-                picture.thumbnail((300, 225))
+                picture.thumbnail((300,225))
                 displayed_pic = ImageTk.PhotoImage(picture)
                 pic_list.append(displayed_pic)
         
         # Image display label
         self.pic_display_label = Label(self.frame1, image=displayed_pic)
-        self.pic_display_label.pack(padx=10, pady=(5,0), anchor=W)
+        self.pic_display_label.pack(padx=10, pady=(15,0), anchor=W)
 
         # Navigation buttons
         self.back_button = Button(self.frame1, text="Back", command=self.scroll_backward)
         self.forward_button = Button(self.frame1, text="Forward", command=lambda: self.scroll_forward(2))
-        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
-        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.forward_button.pack(padx=10, pady=(0,2.5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,2.5), anchor=W)
 
-    # Part 1b 
+    # Part 1b Image Scroll Forward Button Function 
     def scroll_forward(self, pic_number):
-        self.pic_display_label.pack_forget()
         self.forward_button.pack_forget()
         self.back_button.pack_forget()
+        self.pic_display_label.pack_forget()
         self.pic_display_label = Label(self.frame1, image=pic_list[(pic_number-1) % len(pic_list)])
-        self.pic_display_label.pack(padx=10, pady=(20,0), anchor=W)
+        self.pic_display_label.pack(padx=10, pady=(15,0), anchor=W)
         self.forward_button.config(command=lambda: self.scroll_forward((pic_number + 1) % len(pic_list)))
         self.back_button.config(command=lambda: self.scroll_backward((pic_number - 1) % len(pic_list)))
-        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
-        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.forward_button.pack(padx=10, pady=(0,2.5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,2.5), anchor=W)
         
-    # Part 1c
+    # Part 1c Image Scroll Backward Button Function 
     def scroll_backward(self, pic_number):
-        self.pic_display_label.pack_forget()
         self.forward_button.pack_forget()
         self.back_button.pack_forget()
+        self.pic_display_label.pack_forget()
         self.pic_display_label = Label(self.frame1, image=pic_list[(pic_number-1) % len(pic_list)])
-        self.pic_display_label.pack(padx=10, pady=(20,0), anchor=W)
+        self.pic_display_label.pack(padx=10, pady=(15,0), anchor=W)
         self.forward_button.config(command=lambda: self.scroll_forward((pic_number + 1) % len(pic_list)))
         self.back_button.config(command=lambda: self.scroll_backward((pic_number - 1) % len(pic_list)))
-        self.forward_button.pack(padx=10, pady=(0,5), anchor=W)
-        self.back_button.pack(padx=10, pady=(0,5), anchor=W)
+        self.forward_button.pack(padx=10, pady=(0,2.5), anchor=W)
+        self.back_button.pack(padx=10, pady=(0,2.5), anchor=W)
 
        
     # Part 2a New Journal Entry Function
@@ -186,7 +186,7 @@ class App(Frame):
         self.image_upload_label = Label(self.second_frame, text="3. Upload a picture from your visit:")
         self.image_upload_label.pack(padx=10, anchor=W)
         
-        # Upload Image button
+        # Upload image button
         self.image_button = Button(self.second_frame, text="Upload image", command = self.upload_image)
         self.image_button.pack(padx=10, pady=10, anchor=W)
 
@@ -219,7 +219,7 @@ class App(Frame):
         self.cancel_button = Button(self.second_frame, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    # Part 2b Upload an Image
+    # Part 2b Upload an Image Into New Journal Entry
     def upload_image(self):
         '''method for uploading an image as part of a new journal entry'''
         self.upload_img_file = filedialog.askopenfilename(title="Select an image to upload", filetypes=[("Image Files", ".png .jpeg .jpg")])
@@ -260,13 +260,13 @@ class App(Frame):
         for item in self.journal_entry_list: # populate entries list
             self.entries_list.insert(END, item) 
     
-    # Part 2d Cancel Journal Entry Function
+    # Part 2d Cancel New Journal Entry Function
     def cancel_journal_entry(self):
         '''method for canceling creation of a new journal entry'''
         self.journal_entry.destroy() # close window
 
     
-    # Part 3a Open Journal Entry Function
+    # Part 3a Open Existing Journal Entry Function
     def open_journal_entry(self):
         '''method for opening a journal entry via the 'Open a journal entry' button'''
         
@@ -306,7 +306,7 @@ class App(Frame):
         self.cancel_journal_button = Button(self.open_journal_frame, text="Cancel", command=self.cancel_journal_changes)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-    # Part 3b Open File Function
+    # Part 3b Open File Menu Function
     def open_file(self):
         '''method for opening a different existing journal entry via file menu 'Open' option'''
         self.open_text_file.delete("1.0", END)
@@ -316,7 +316,7 @@ class App(Frame):
         self.open_text_file.insert(END, read_journal)
         self.journal_file.close()
 
-    # Part 3c Save File Function
+    # Part 3c Save File Menu Function
     def save_file(self):
         '''method for saving a journal file via the file menu Save option or the Save button'''
         self.existing_filename = os.path.basename(self.journal_file.name)
@@ -325,7 +325,7 @@ class App(Frame):
         self.journal_file_save.write(self.open_text_file.get("1.0", END))
         self.journal_file_save.close()
 
-    # Part 3d Double Click Opening Journal Entry
+    # Part 3d Double Click Open Existing Journal Entry Function
     def double_click_journal(self, event):
         '''method for opening and accessing a journal file from the listbox by double clicking on the applicable journal file'''
 
@@ -385,7 +385,7 @@ class App(Frame):
         self.click_text_file.insert(END, read_journals)
         self.clicked_journal_file.close()
         
-    # Part 3h Save File Function for Double Click Method
+    # Part 3h Save File Function for Double Click Mode
     def save_clicked_file(self):
         '''method for saving an existing journal entry via file menu option or button for double clicked mode'''
         try: # for simply saving the same journal file that was opened directly from the listbox
@@ -396,14 +396,14 @@ class App(Frame):
                 self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
 
                 self.click_journal_file_save.close()
-        except: # for saving a different journal file that is opened with the 'Open' file menu option after opening an initial journal file from the listbox
+        except: # for saving a different journal file that is opened with the 'Open' file menu option after opening an initial journal file from the listbox (still a WIP, but without this, this function was not working at all)
             self.clicked_existing_filename = os.path.basename(self.clicked_journal_file)
-            self.click_journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.clicked_existing_filename, title="Save Journal Entry Text File")
+            self.click_journal_file_saved = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.clicked_existing_filename, title="Save Journal Entry Text File")
 
-            with open(self.click_journal_file_save, 'w+') as self.click_journal_file_save:
-                self.click_journal_file_save.write(self.click_text_file.get("1.0", END))
+            with open(self.click_journal_file_saved, 'w+') as self.click_journal_file_saved:
+                self.click_journal_file_saved.write(self.click_text_file.get("1.0", END))
 
-                self.click_journal_file_save.close()
+                self.click_journal_file_saved.close()
 
 
     # Part 4 New Learn Inquiry Function
@@ -442,17 +442,17 @@ class App(Frame):
         self.desc_label.pack(padx=10, pady=5, anchor=W)
         self.desc_label.configure(wraplength=800, justify=LEFT)
 
-        # NPS Page Link
+        # NPS page link
         self.link_label = Label(self.learn_info_frame, text="National Park Service Official Web Page", fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
         self.link_label.pack(padx=10, pady=(0,5), anchor=W)
         self.link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][3]))
 
-        # Nature and Wildlife
+        # Nature and wildlife
         self.wildlife_label = Label(self.learn_info_frame, text="Common wildlife to be seen in the park includes: "+park_info_list[0][10]+ ", and more! For more information about nature and wildlife, please visit:")
         self.wildlife_label.pack(padx=10, pady=0, anchor=W)
         self.wildlife_label.configure(wraplength=800, justify=LEFT)
 
-        # Nature and Wildlife URL
+        # Nature and wildlife URL
         self.nw_link_label = Label(self.learn_info_frame, text=str(park_info_list[0][11]) , fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
         self.nw_link_label.pack(padx=10, pady=(0,10),anchor=W)
         self.nw_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][11]))
@@ -467,12 +467,12 @@ class App(Frame):
         self.act_link_label.pack(padx=10, pady=(0,10), anchor=W)
         self.act_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][13]))
 
-        # Operating Hours and Seasons
+        # Operating hours and seasons
         self.ops_label = Label(self.learn_info_frame, text="Operating hours: "+park_info_list[0][8]+ ". For more information about hours and holiday closures, please visit:")
         self.ops_label.pack(padx=10, pady=0, anchor=W)
         self.ops_label.configure(wraplength=800, justify=LEFT)
 
-        # Operating Hours and Seasons URL
+        # Operating hours and seasons URL
         self.ops_link_label = Label(self.learn_info_frame, text=str(park_info_list[0][9]) , fg="blue", cursor="hand2", font=('TkDefaultFont', 13, 'underline'))
         self.ops_link_label.pack(padx=10, pady=(0,10), anchor=W)
         self.ops_link_label.bind("<Button-1>", lambda e: webbrowser.open_new(park_info_list[0][9]))
@@ -491,9 +491,9 @@ class App(Frame):
         
        
         
-# TO DO LIST
-# tweak Part 2c to incorporate uploaded image from part 2b - WIP
-# Clean up existing entries folder, journal photos folder, and code before code freeze
+# WIP parts:
+# Part 2c - incorporating uploaded image from part 2b
+# Part 3h - system error preventing filename from autopopulating after a different entry is opened using the part 3g function
 
 
 
