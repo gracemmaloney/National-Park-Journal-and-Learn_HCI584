@@ -1,5 +1,5 @@
 # National-Park-Journal-and-Learn_HCI584
-This repository will host my HCI 584X course project, a national park journaling and learning GUI for outdoor enthusiasts. This GUI will enable users of the application to digitally store their memories from national parks in the US and record the details of their visits. 
+This repository will host my HCI 584X course project, a national park journaling and learning GUI for outdoor enthusiasts. This GUI will enable users of the application to digitally store their memories from national parks in the US and record the details of their visits. Additionally, users can learn about different national parks in the US.
 
 Project Repo Structure:
 - Project Spec.docx: initial project specification
@@ -11,7 +11,10 @@ Project Repo Structure:
 -------------------
 # Usage
 1. Clone or download the National-Park-Journal-and-Learn_HCI584 repo to the desired location on your computer
-2. Run/execute Main.py
+2. Many of the modules included in this project are part of the standard Python library, so they should already be available as part of your Python installation and won't require additional installations. But if not already included or installed in your Python environment, the following install dependencies will be needed:
+   - Pillow (PIL Fork): !pip3 install pillow
+   - Pandas: !pip3 install pandas
+3. Run/execute Main.py
 -------------------
 # How to Use
 If you prefer to view a step-by-step video walkthrough, one can be found here: https://www.loom.com/share/cda160aee29949a6b9775eba417c7d2f
@@ -22,7 +25,7 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 2. From the Journal tab, you can create a new journal entry by clicking the 'Create new journal entry' button.
 <img width="928" alt="Step 2" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/66cf239f-d7d6-41a7-b05c-bae29707bd6b">
 
-3. A new window will appear where you can select the national parked visited, enter details and memories from your visit, upload an image from your visit, rate the national parked visited, and justify your rating. If the contents of this window appear cut off, resize the height of the window with your mouse and a scrollbar will appear!
+3. A new window will appear where you can select the national parked visited, enter details and memories from your visit, upload an image from your visit, rate the national parked visited, and justify your rating. Optionally, for easy uploading of images, I would first save the image in the Journal Photos folder. Also, if the contents of this window appear cut off, resize the height of the window with your mouse and a scrollbar will appear!
 <img width="726" alt="Step 3" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/29b0a924-e7b9-45a7-847d-cc14cc297ab6">
 
 4. Once the journal entry has been completed, you can click the 'Save' button to save your journal entry. If you begin to enter a new journal entry and wish to discard it, you can click the 'Cancel' button.
@@ -31,7 +34,7 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 5. Upon clicking the 'Save' button, a filedialog window will appear for you to save your journal entry in the Journal Entries folder. By default, the park name populates as the initial filename, but this can be adjusted if you prefer an alternative filename.
 <img width="805" alt="Step 5" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/6739b93b-a594-4cfc-a61f-a57398ac4438">
 
-6. The journal entry, along with any other exisiting entries, will appear in the listbox on the Journal tab.
+6. The new journal entry, along with any other exisiting entries, will appear in the listbox on the Journal tab.
 <img width="928" alt="Step 6" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/33d03c00-6ffc-4eb7-8257-f86c97acc7d4">
 
 7. To view or edit an existing journal entry, you can click the 'Open a journal entry' button or double click an entry from the listbox.
@@ -44,7 +47,7 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 <img width="683" alt="Step 9a" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/07576b27-b2db-49ab-b7f2-1a33a07dc60d">
 <img width="197" alt="Step 9b" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/337598a9-8d58-436d-b2b6-9f2f83e63377">
 
-10. From the File Menu, you can also open a different existing journal entries for viewing, editing, and saving as needed. If a different entry is opened via the 'Open' File Menu option, it will similarly populate in the journal entry window.
+10. From the File Menu, you can also open different existing journal entries for viewing, editing, and saving as needed. If a different entry is opened via the 'Open' File Menu option, it will similarly populate in the journal entry window.
 <img width="197" alt="Step 10" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/2227f6a1-c89e-44bd-b78f-f7cc52b1e6d7">
 
 11. If you open a journal entry and wish to close out of the window, you can simply press the close button in the top left corner of the window, or click the 'Cancel' button.
@@ -64,9 +67,9 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 
 -------------------
 # Known Limitations
-There a couple parts of this project that are currently not working as intended, despite my attempts to implement the functionality, including:
+There are a couple parts of this project that are currently not working as intended, despite my attempts to implement the functionality, including:
 1. Images uploaded as part of new journal entries are not displayed when a user opens the journal entry for viewing and editing. While .txt files do not support image displaying, I was also unable to implement this functionality using other filetypes, including .doc, .docx, and .pdf while still maintaining the functionality for easy editing of existing journal entries within the application.
-2. When accessing an existing journal entry via double clicking on an entry from the listbox and then using the 'Open' File Menu option to open a different journal entry, there is a known code error/limitation preventing the filename from autopopulating with the park name when clicking 'Save' via both the 'Save' button and the 'Save' File Menu option. Users that encounter this will need to manually select or type in the desired filename.
+2. When accessing an existing journal entry via double clicking on an entry from the listbox and then using the 'Open' File Menu option to open a different journal entry, there is a known code error/limitation preventing the filename from autopopulating with the park name when clicking 'Save' via both the 'Save' button and the 'Save' File Menu option. Users that encounter this will need to manually select or type in the desired filename, being careful not to overwrite the wrong journal entry.
 
 Apologies in advance for any inconvenience these limitations may cause, but if you come across a solution for either of these limitations, I'd appreciate your help! 
 
