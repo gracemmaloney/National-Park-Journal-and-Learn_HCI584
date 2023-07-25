@@ -11,10 +11,11 @@ Project Repo Structure:
 -------------------
 # Usage
 1. Clone or download the National-Park-Journal-and-Learn_HCI584 repo to the desired location on your computer
-2. Many of the modules included in this project are part of the standard Python library, so they should already be available as part of your Python installation and won't require additional installations. But if not already included or installed in your Python environment, the following install dependencies will be needed:
-   - Pillow (PIL Fork): !pip3 install pillow
-   - Pandas: !pip3 install pandas
-3. Run/execute Main.py
+2. Refer to requirements.txt for the non-standard modules required for this project. Many of the modules included in this project are part of the standard Python library, so they should already be available as part of your Python installation and won't require additional installations. But if not already included or installed in your Python environment, the following install dependencies will be needed:
+   - pillow
+   - pandas
+   - To install these required packages, you can use this pip command: pip install -r requirements.txt
+4. Run/execute Main.py in the python 3 environment (I use interpreter version 3.11)
 -------------------
 # How to Use
 If you prefer to view a step-by-step video walkthrough, one can be found here: https://www.loom.com/share/cda160aee29949a6b9775eba417c7d2f
