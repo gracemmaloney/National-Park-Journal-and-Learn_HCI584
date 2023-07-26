@@ -2,7 +2,7 @@
 This repository will host my HCI 584X course project, a national park journaling and learning GUI for outdoor enthusiasts. This GUI will enable users of the application to digitally store their memories from national parks in the US and record the details of their visits. Additionally, users can learn about different national parks in the US.
 
 Project Repo Structure:
-- Project Spec.docx: initial project specification
+- Docs folder: folder containing developer's documentation and initial project specification
 - Main.py: .py file to be ran
 - Database - Learn.xlsx: data for Learn tab of GUI and for dropdown menu lists of US National Parks
 - National Park Photos: folder containing a photo of each US national park (via NPS)
