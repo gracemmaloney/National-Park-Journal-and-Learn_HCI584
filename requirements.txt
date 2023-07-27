@@ -1,4 +1,16 @@
-# Non-standard required prerequisites to run main.py in National-Park-Journal-and-Learn_HCI584:pillow  # I use version 9.4.0, use at least this versionpandas  # I use version 1.5.3, use at least this version
+# Non-standard required prerequisites to run main.py in National-Park-Journal-and-Learn_HCI584:
+
+pillow  # I use version 9.4.0, use at least this version
+pandas  # I use version 1.5.3, use at least this version
 
 # To install them, type this into your console:
-# pip -r requirements.txt # Or if installing via a Jupyter Notebook: # !pip3 install pillow  # !pip3 install pandas# Or if installing via a .py file, use subprocess to call pip3 and install the package: # import subprocess # subprocess.call(['pip3', 'install', 'pillow']) # subprocess.call(['pip3', 'install', 'pandas'])
+# pip -r requirements.txt 
+
+# Or if installing via a Jupyter Notebook:
+ # !pip3 install pillow 
+ # !pip3 install pandas
+
+# Or if installing via a .py file, use subprocess to call pip3 and install the package:
+ # import subprocess
+ # subprocess.call(['pip3', 'install', 'pillow'])
+ # subprocess.call(['pip3', 'install', 'pandas'])
