@@ -35,7 +35,7 @@ If you prefer to view a step-by-step video walkthrough, one can be found here: h
 5. Upon clicking the 'Save' button, a filedialog window will appear for you to save your journal entry in the Journal Entries folder. By default, the park name populates as the initial filename, but this can be adjusted if you prefer an alternative filename.
 <img width="805" alt="Step 5" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/6739b93b-a594-4cfc-a61f-a57398ac4438">
 
-6. The new journal entry, along with any other exisiting entries, will appear in the listbox on the Journal tab.
+6. The new journal entry, along with any other existing entries, will appear in the listbox on the Journal tab.
 <img width="928" alt="Step 6" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/33d03c00-6ffc-4eb7-8257-f86c97acc7d4">
 
 7. To view or edit an existing journal entry, you can click the 'Open a journal entry' button or double click an entry from the listbox.
