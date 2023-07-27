@@ -15,7 +15,7 @@ Project Repo Structure:
    - pillow
    - pandas
    - To install these required packages, you can use this pip command: pip install -r requirements.txt
-4. Run/execute Main.py in the python 3 environment (I use interpreter version 3.11)
+4. Run/execute Main.py in the python 3 environment (I use interpreter version 3.11 and utilize VSCode)
 -------------------
 # How to Use
 If you prefer to view a step-by-step video walkthrough, one can be found here: https://www.loom.com/share/cda160aee29949a6b9775eba417c7d2f
