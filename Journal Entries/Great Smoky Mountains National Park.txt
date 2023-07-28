@@ -1,8 +1,11 @@
 National Park Visited: Great Smoky Mountains National Park
 Details: Great park!
 
-pyimage18
+pyimage16
 
 Rating: 5
-Rating Details: Best park!
+Rating Details: Loved this park!
+
+Edit!
+
 
