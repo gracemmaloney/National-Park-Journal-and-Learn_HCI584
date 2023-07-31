@@ -1,4 +1,4 @@
-# Non-standard required prerequisites to run main.py in National-Park-Journal-and-Learn_HCI584:
+# Non-standard required prerequisites to run Main_Final.py in National-Park-Journal-and-Learn_HCI584:
 
 pillow  # I use version 9.4.0, use at least this version
 pandas  # I use version 1.5.3, use at least this version
