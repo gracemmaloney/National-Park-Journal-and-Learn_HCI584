@@ -18,7 +18,7 @@ Project Repo Structure:
 4. Run/execute Main_Final.py in the python 3 environment (I use interpreter version 3.11 and utilize VSCode)
 -------------------
 # How to Use
-If you prefer to view a step-by-step video walkthrough, one can be found here:
+If you prefer to view a step-by-step video walkthrough, one can be found here: https://www.loom.com/share/3d0665c7175446b391256df25da30729
 
 1. Once Main_Final.py has been executed, the application will open with the Journal tab displayed by default.
 <img width="926" alt="Screenshot 2023-07-31 at 3 51 54 PM" src="https://github.com/gracemmaloney/National-Park-Journal-and-Learn_HCI584/assets/133996701/07650c2c-d6da-49c6-9396-f69f489a69f2">
