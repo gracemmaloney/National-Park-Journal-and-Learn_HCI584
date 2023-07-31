@@ -76,7 +76,7 @@ class App(Frame):
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
         
-    # Part 1b Image Scroll Forward Button Function - NEW JOURNAL ENTRY VERSION
+    # Part 1b Image Scroll Forward Button Function
     def scroll_forward(self):
         '''method for scrolling through image display viewer using the forward button'''
         self.current_pic += 1
@@ -84,7 +84,7 @@ class App(Frame):
             self.current_pic = 0
         self.pic_display_label.configure(image=self.pic_list[self.current_pic])
 
-    # Part 1c Image Scroll Backward Button Function - NEW JOURNAL ENTRY VERSION
+    # Part 1c Image Scroll Backward Button Function
     def scroll_backward(self):
         '''method for scrolling through image display viewer using the back button'''
         self.current_pic -= 1
@@ -197,7 +197,7 @@ class App(Frame):
         self.cancel_button = Button(self.second_frame, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    # Part 2c Save Journal Entry Function
+    # Part 2b Save Journal Entry Function
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a file that can be accessed later'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], 
@@ -215,7 +215,7 @@ class App(Frame):
             for item in self.journal_entry_list: # populate entries list
                 self.entries_list.insert(END, item) 
     
-    # Part 2d Cancel New Journal Entry Function
+    # Part 2c Cancel New Journal Entry Function
     def cancel_journal_entry(self):
         '''method for canceling and discarding the creation of a new journal entry'''
         self.journal_entry.destroy() # close window
@@ -228,9 +228,17 @@ class App(Frame):
         # Select file to open for viewing/editing
         journal_file = filedialog.askopenfilename(initialdir=JOURNAL_DIR, title="Open Journal Entry Text File")
         self.load_journal(journal_file)
-        
+
+    # Part 3b Double Click Open Existing Journal Entry Function
+    def double_click_journal(self, event):
+        '''method for opening and accessing a journal file entry from the listbox by double clicking on the applicable journal file'''
+        journal_file = self.entries_list.get(ACTIVE)
+        journal_file = os.path.join(JOURNAL_DIR, journal_file)
+        self.load_journal(journal_file)
+    
+    # Part 3c Load Journal Function
     def load_journal(self, journal_file):
-        ''' method that does the actual loading after selecting a journal file entry'''
+        '''method that does the actual loading after selecting a journal file entry'''
         self.journal_file = journal_file
 
         # New window for frame and text box widgets below
@@ -254,7 +262,6 @@ class App(Frame):
             self.img_in_journal = ImageTk.PhotoImage(journal_img_path)
             self.open_text_file.image_create("end -2 lines", image=self.img_in_journal) # puts the image just above the file name
        
-
         # Save button widget
         self.journal_save_entry_button = Button(self.open_journal_frame, text="Save Journal", command=self.save_journal_after_dialog_view)
         self.journal_save_entry_button.pack(padx=10, pady=5)
@@ -263,7 +270,7 @@ class App(Frame):
         self.cancel_journal_button = Button(self.open_journal_frame, text="Close Journal", command=self.cancel_journal_changes)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-    # Part 3c Save File Function
+    # Part 3d Save File Function
     def save_journal_after_dialog_view(self):
         '''method for saving a journal entry file via the Save button'''
         self.existing_filename = os.path.basename(self.journal_file) # keep same file name when saving
@@ -286,6 +293,7 @@ class App(Frame):
         for item in self.journal_entry_list: # populate entries list
             self.entries_list.insert(END, item) 
     
+    # Part 3e Grab Text and Image Data Function
     def get_text_and_image_from_journal(self, journal_txt_file):
         '''Reads in journal_txt_file and returns the text part. If the last line is a image file path a PIL image will also be returned.
            If not image file path was given of if that file could not be read, None is returned instead'''
@@ -294,7 +302,7 @@ class App(Frame):
         img = None
         file_clicked.close()
 
-        # CH see if the last line is an image file name
+        # CH - see if the last line is an image file name
         lines = txt.splitlines()
         last_line = lines[-1]
         if last_line[-4:] == ".png" or last_line[-4:] == ".jpg":
@@ -308,24 +316,12 @@ class App(Frame):
 
         return txt, img
 
-    # Part 3d Double Click Open Existing Journal Entry Function
-    def double_click_journal(self, event):
-        '''method for opening and accessing a journal file entry from the listbox by double clicking on the applicable journal file'''
-        journal_file = self.entries_list.get(ACTIVE)
-        journal_file = os.path.join(JOURNAL_DIR, journal_file)
-        self.load_journal(journal_file)
-        
-    # Part 3e Cancel Journal Edits Button Function
-    def cancel_journal_edits(self):
-        '''method for canceling the viewing/editing of an existing journal entry - via double clicked mode'''
-        self.click_journal_entry.destroy()
-
     # Part 3f Cancel Journal Changes Button Function
     def cancel_journal_changes(self):
         '''method for canceling the viewing/editing of an existing journal entry - via 'Open a journal entry' button mode'''
         self.open_journal_entry.destroy()
         
-    # Part 3h Save File Function for Double Click Mode 
+    # Part 3g Save File Function for Double Click Mode 
     def save_clicked_file(self):
         '''method for saving an existing journal entry via file menu 'Save' option or 'Save' button for double clicked mode'''
         try: # for simply saving the same journal file that was opened directly from the listbox
@@ -431,7 +427,7 @@ class App(Frame):
         
 
 master = Tk()  # create a Tk window called master
-master.title("National Park Journal for Outdoor Enthusiasts TkInter GUI")
+master.title("National Park Journal and Learn for Outdoor Enthusiasts")
 myapp = App(master) # create App object within master (Tk) windowmaster.mainloop() # draw master window, react to events only
 master.mainloop() # draw master window, react to events 
 print("Done")
