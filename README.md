@@ -7,7 +7,7 @@ Project Repo Structure:
 - Database - Learn.xlsx: data for Learn tab of GUI and for dropdown menu lists of US National Parks
 - National Park Photos: folder containing a photo of each US national park (via NPS)
 - Journal Entries: folder containing existing journal entries
-- Journal Photos: folder containing images to be displayed on default tab of application
+- Journal Photos: folder containing images that can be uploaded into new journal entries
 -------------------
 # Usage
 1. Clone or download the National-Park-Journal-and-Learn_HCI584 repo to the desired location on your computer
