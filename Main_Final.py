@@ -33,10 +33,11 @@ class App(Frame):
         self.notebook.pack(padx=10, pady=10)
 
         # Label widgets with initial instructions for user to review upon viewing the Journal and Learn tabs
-        self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button below. If ou want to insert an image, place it into the Journal Photos folder now.")
+        self.frame1_label = Label(self.frame1, text="To create a new journal entry, click the Create new journal entry button below. If you plan to insert an image, add it into the Journal Photos folder before starting a new journal entry.")
         self.frame2_label = Label(self.frame2, text="To learn about a US National Park, select the appropriate National Park from the dropdown menu.")
         self.frame1_label.pack(padx=10, pady=(10,5), anchor=W)
         self.frame2_label.pack(padx=10, pady=(10), anchor=W)
+        self.frame1_label.configure(wraplength=800, justify=LEFT)
 
         # Create new journal entry button widget
         self.journal_button = Button(self.frame1, text="Create new journal entry", command=self.enter_new_journal_entry)
@@ -47,7 +48,7 @@ class App(Frame):
         self.ext_entries_label.pack(padx=10, pady=(15,5), anchor=W)
 
         # Listbox widget for listing existing entries
-        self.entries_list = Listbox(self.frame1, width=50, height=10, selectmode=SINGLE)
+        self.entries_list = Listbox(self.frame1, width=50, height=30, selectmode=SINGLE)
         self.entries_list.bind("<Double-Button-1>", self.double_click_journal)
 
         # Open a journal entry button widget
@@ -74,12 +75,8 @@ class App(Frame):
         # Frame widget that will be cleared below each time a user selects a national park to learn about from the dropdown menu
         self.learn_info_frame=Frame(self.frame2) 
         self.learn_info_frame.pack(padx=10, pady=10, anchor=W)
-
-        # Label widget with image display CTA
-        #self.pic_CTA_label = Label(self.frame1, text="Have some pictures from your visits to US National Parks? Add them to the Journal Photos folder to see them below!")
-        #self.pic_CTA_label.pack(padx=10, pady=(15,0), anchor=W)
         
-
+    # Part 1b Image Scroll Forward Button Function - NEW JOURNAL ENTRY VERSION
     def scroll_forward(self):
         '''method for scrolling through image display viewer using the forward button'''
         self.current_pic += 1
@@ -87,17 +84,15 @@ class App(Frame):
             self.current_pic = 0
         self.pic_display_label.configure(image=self.pic_list[self.current_pic])
 
-        
-    # Part 1c Image Scroll Backward Button Function 
+    # Part 1c Image Scroll Backward Button Function - NEW JOURNAL ENTRY VERSION
     def scroll_backward(self):
+        '''method for scrolling through image display viewer using the back button'''
         self.current_pic -= 1
         if self.current_pic < 0:
             self.current_pic = len(self.pic_list) -1
         self.pic_display_label.configure(image=self.pic_list[self.current_pic])
 
 
-
-       
     # Part 2a New Journal Entry Function
     def enter_new_journal_entry(self):
         '''method for creating a new journal entry'''
@@ -150,12 +145,10 @@ class App(Frame):
         self.text.pack(padx=10, pady=10, anchor=W)
 
         # Label widget with step-by-step instruction - step 3
-        self.image_upload_label = Label(self.second_frame, text="3. You can leave this blank, or insert an image from your Journal Photos folder.\n Use the Forward and Back buttons to scroll through the available images")
+        self.image_upload_label = Label(self.second_frame, text="3. You can leave this blank, or insert an image from your Journal Photos folder.\n Use the Forward and Back buttons to scroll through the available images.")
         self.image_upload_label.pack(padx=10, anchor=W)
         
- 
-        # read image from photos 
-        #global pic_list #WTH??? Why global? just use self
+        # Read image from photos
         self.pic_list = []
         files = os.listdir(PHOTOS_DIR) # images in journal photos folder
         self.pic_filename_list = sorted(files, reverse=True, key=lambda f: os.path.getmtime(PHOTOS_DIR+"/"+f))
@@ -176,8 +169,8 @@ class App(Frame):
         self.fwdbck_frame.pack(padx=10, pady=(0,2.5), anchor=W)
         self.back_button = Button(self.fwdbck_frame, text="Back", command=self.scroll_backward)
         self.forward_button = Button(self.fwdbck_frame, text="Forward", command=self.scroll_forward)
-        self.forward_button.pack(padx=10, pady=(0,2.5), anchor=W, side=LEFT)
-        self.back_button.pack(padx=10, pady=(0,2.5), anchor=W,  side=LEFT) 
+        self.back_button.pack(padx=10, pady=(0,10), anchor=W,  side=LEFT)
+        self.forward_button.pack(padx=10, pady=(0,10), anchor=W, side=LEFT)
   
         # Label widget with step-by-step instruction - step 4
         self.rating_label = Label(self.second_frame, text="4. Rate the selected US National Park:")
@@ -204,11 +197,11 @@ class App(Frame):
         self.cancel_button = Button(self.second_frame, text="Cancel", command=self.cancel_journal_entry)
         self.cancel_button.pack(padx=10, pady=10)
     
-    # Part 2c Save Journal Entry Function - WIP TODO
+    # Part 2c Save Journal Entry Function
     def save_journal_entry(self):
         '''method for saving the details of a new journal entry as a file that can be accessed later'''
         self.text_file = filedialog.asksaveasfile(defaultextension=".txt", filetypes=[("Text File", ".txt")], 
-                                                initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get()) # wip TODO
+                                                initialdir=JOURNAL_DIR, initialfile=self.natpark_var.get())
         if self.text_file != "": # empty when cancel was pressed!
             image_file_path = ""
             if len(self.pic_filename_list) > 0:
@@ -237,8 +230,7 @@ class App(Frame):
         self.load_journal(journal_file)
         
     def load_journal(self, journal_file):
-
-        ''' method that does the actual loading after give a file name'''
+        ''' method that does the actual loading after selecting a journal file entry'''
         self.journal_file = journal_file
 
         # New window for frame and text box widgets below
@@ -252,10 +244,10 @@ class App(Frame):
         self.open_text_file = Text(self.open_journal_frame, width=90, height=20)
         self.open_text_file.pack(padx=10, pady=10)
 
-        # load text and image data
+        # Load text and image data
         journal_txt, journal_img_path = self.get_text_and_image_from_journal(self.journal_file)
 
-        # show text/img in self.open_text_file widget
+        # Show text/img in self.open_text_file widget
         self.open_text_file.delete("1.0", END)
         self.open_text_file.insert(END, journal_txt)
         if journal_img_path != None:
@@ -271,13 +263,14 @@ class App(Frame):
         self.cancel_journal_button = Button(self.open_journal_frame, text="Close Journal", command=self.cancel_journal_changes)
         self.cancel_journal_button.pack(padx=10, pady=5)
 
-    # Part 3c Save File Menu Function
+    # Part 3c Save File Function
     def save_journal_after_dialog_view(self):
+        '''method for saving a journal entry file via the Save button'''
         self.existing_filename = os.path.basename(self.journal_file) # keep same file name when saving
         self.journal_file_save = filedialog.asksaveasfilename(defaultextension=".*", initialdir=JOURNAL_DIR, initialfile=self.existing_filename, title="Save Journal Entry Text File")
 
         # CH: after the image has been placed inside the text area, another /n is placed at the end and
-        # that screws up the image file name detection on loading. So im removing the 2. \n here
+        # that screws up the image file name detection on loading. So removing the 2. \n here
         txt = self.open_text_file.get("1.0", END)
         if txt[-2:] == "\n\n":
             txt = txt[:-1] 
@@ -294,7 +287,7 @@ class App(Frame):
             self.entries_list.insert(END, item) 
     
     def get_text_and_image_from_journal(self, journal_txt_file):
-        '''reads in journal_txt_file and returns the text part. If the last line is a image file path a PIL image will also be returned.
+        '''Reads in journal_txt_file and returns the text part. If the last line is a image file path a PIL image will also be returned.
            If not image file path was given of if that file could not be read, None is returned instead'''
         file_clicked = open(journal_txt_file, 'r')
         txt = file_clicked.read()
@@ -314,8 +307,6 @@ class App(Frame):
                 img.thumbnail((300, 225))  # thumbnail to internally change the image, and not return a changed copy
 
         return txt, img
-
-
 
     # Part 3d Double Click Open Existing Journal Entry Function
     def double_click_journal(self, event):
@@ -438,14 +429,6 @@ class App(Frame):
         self.costm_label = Label(self.learn_info_frame, text="Cost of Entry Per Motorcycle: $"+str(park_info_list[0][6]))
         self.costm_label.pack(padx=10, anchor=W)
         
-       
-        
-# WIP TODO parts:
-# Part 2c - incorporating uploaded image from part 2b in a filetype that supports both images and text
-# Part 3h - system error preventing currently opened filename from autopopulating after a different entry is opened using the part 3g function
-
-
-
 
 master = Tk()  # create a Tk window called master
 master.title("National Park Journal for Outdoor Enthusiasts TkInter GUI")
