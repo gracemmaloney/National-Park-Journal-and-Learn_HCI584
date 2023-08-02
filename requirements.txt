@@ -1,7 +1,7 @@
 # Non-standard required prerequisites to run Main_Final.py in National-Park-Journal-and-Learn_HCI584:
 
-pillow >= 9.4 version
-pandas >= 1.5.3 version
+pillow >= 9.4
+pandas >= 1.5.3
 
 # To install them, type this into your console:
 # pip -r requirements.txt 
